@@ -1,188 +1,7 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8" />
-  <title>Lenormand LLM Reader</title>
-  <link rel="stylesheet" href="/static/style.css" />
-  <style>
-    /* 스타일 파일 따로 쓰기 귀찮으면 여기서 바로 써도 됨 */
-
-    body {
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background: radial-gradient(circle at top, #f9f5ff, #e5e7eb);
-      margin: 0;
-      padding: 0;
-      color: #111827;
-    }
-
-    .container {
-      max-width: 900px;
-      margin: 0 auto;
-      padding: 2rem 1.5rem 3rem;
-    }
-
-    h1 {
-      font-size: 2rem;
-      margin-bottom: 0.5rem;
-    }
-
-    .subtitle {
-      color: #6b7280;
-      margin-bottom: 2rem;
-    }
-
-    .card {
-      background: rgba(255, 255, 255, 0.9);
-      border-radius: 1rem;
-      box-shadow: 0 10px 30px rgba(15, 23, 42, 0.12);
-      padding: 1.5rem;
-      margin-bottom: 1.5rem;
-      border: 1px solid rgba(148, 163, 184, 0.4);
-    }
-
-    .reader-notes {
-      margin-top: 0.5rem;
-      padding-top: 0.5rem;
-      border-top: 1px dashed #e5e7eb;
-      font-size: 0.85rem;
-      color: #4b5563;
-    }
-
-    .reader-note-block {
-      margin-bottom: 0.75rem;
-    }
-
-    .reader-note-title {
-      font-weight: 600;
-      margin-bottom: 0.2rem;
-    }
-
-
-    label {
-      display: block;
-      font-weight: 600;
-      margin-bottom: 0.25rem;
-    }
-
-    textarea, select, button, input[type="text"] {
-      width: 100%;
-      box-sizing: border-box;
-      padding: 0.6rem 0.75rem;
-      border-radius: 0.6rem;
-      border: 1px solid #d1d5db;
-      font-size: 0.95rem;
-      margin-bottom: 1rem;
-      outline: none;
-    }
-
-    textarea {
-      min-height: 80px;
-      resize: vertical;
-    }
-
-    textarea:focus,
-    select:focus,
-    input[type="text"]:focus {
-      border-color: #6366f1;
-      box-shadow: 0 0 0 1px rgba(99, 102, 241, 0.3);
-    }
-
-    button {
-      background: linear-gradient(135deg, #6366f1, #ec4899);
-      color: white;
-      border: none;
-      font-weight: 600;
-      cursor: pointer;
-      margin-top: 0.5rem;
-    }
-
-    button:hover {
-      filter: brightness(1.05);
-    }
-
-    .cards-grid {
-      display: grid;
-      gap: 1rem;
-    }
-
-    /* 3장 스프레드일 때 가로로 */
-    .cards-grid--3 {
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-    }
-
-    .card-item {
-      background: white;
-      border-radius: 0.75rem;
-      padding: 0.9rem;
-      border: 1px solid rgba(209, 213, 219, 0.9);
-      box-shadow: 0 4px 12px rgba(15, 23, 42, 0.08);
-    }
-
-    .card-position {
-      font-size: 0.8rem;
-      font-weight: 700;
-      letter-spacing: 0.05em;
-      text-transform: uppercase;
-      color: #6b7280;
-      margin-bottom: 0.25rem;
-    }
-
-    .card-name {
-      font-weight: 700;
-      margin-bottom: 0.25rem;
-    }
-
-    .card-meaning {
-      font-size: 0.9rem;
-      color: #4b5563;
-    }
-
-    .section-title {
-      font-weight: 700;
-      margin-bottom: 0.3rem;
-    }
-
-    .action-list {
-      padding-left: 1.1rem;
-      margin: 0.2rem 0 0;
-      color: #4b5563;
-    }
-
-    .pill {
-      display: inline-block;
-      font-size: 0.75rem;
-      padding: 0.15rem 0.5rem;
-      border-radius: 999px;
-      background: #eef2ff;
-      color: #4f46e5;
-      margin-left: 0.4rem;
-      vertical-align: middle;
-    }
-
-    .small {
-      font-size: 0.8rem;
-      color: #9ca3af;
-    }
-
-    .loading {
-      font-size: 0.9rem;
-      color: #6b7280;
-    }
-
-    .error {
-      font-size: 0.9rem;
-      color: #b91c1c;
-      margin-top: 0.5rem;
-    }
-
-    .card-img {
-      width: 100%;
-      border-radius: 0.6rem;
-      margin-bottom: 0.5rem;
-      box-shadow: 0 4px 10px rgba(15, 23, 42, 0.25);
-      object-fit: cover;
-    }
-  </style>
+  <link rel="stylesheet" href="/static/style.css">
 </head>
 <body>
   <div class="container">
@@ -359,6 +178,8 @@
     function renderResult(data) {
       resultEl.style.display = "block";
 
+      const spreadType = data.spread_type || "";
+
       const rk = data.reading_ko || {};
       summaryText.textContent = rk.summary_ko || "(요약 정보 없음)";
       overallText.textContent = rk.overall_story_ko || "(전체 설명 없음)";
@@ -376,20 +197,43 @@
       spreadLabel.textContent = `스프레드: ${data.spread_type || ""}`;
 
       // 카드들
+      // 카드들
       cardsContainer.innerHTML = "";
       const cards = data.cards || [];
 
-      // 3장 스프레드면 가로 3열, 아니면 자동
+      // 먼저 예전 클래스들 싹 제거
+      cardsContainer.classList.remove("cards-grid--3", "cards-grid--9", "cards-grid--gt");
+
+      // 카드 개수에 따라 레이아웃 클래스 붙이기
       if (cards.length === 3) {
+        // 과거-현재-미래 / 상황-장애-조언
         cardsContainer.classList.add("cards-grid--3");
-      } else {
-        cardsContainer.classList.remove("cards-grid--3");
+      } else if (cards.length === 9) {
+        // 3x3 박스
+        cardsContainer.classList.add("cards-grid--9");
+      } else if (cards.length === 36) {
+        // 그랑 테이블로
+        cardsContainer.classList.add("cards-grid--gt");
       }
+      // 1장 예/아니오는 아무 클래스도 안 붙임 (기본 1열)
+
 
       // 카드 배열 렌더링
-      cards.forEach((c) => {
-        const div = document.createElement("div");
-        div.className = "card-item";
+            // 카드 배열 렌더링
+        cards.forEach((c) => {
+          const div = document.createElement("div");
+          div.className = "card-item";
+
+        // 🔹 그랑 테이블로인 경우, row/column으로 위치 지정
+          if (spreadType === "grand_tableau_8x4_plus4") {
+            const row = c.row;
+            const col = c.column;
+
+            if (row && col) {
+              div.style.gridRow = row;
+              div.style.gridColumn = col;
+            }
+          }
 
         // 1) 카드 이미지
         const img = document.createElement("img");
@@ -418,6 +262,7 @@
 
         cardsContainer.appendChild(div);
       });
+
 
       // 🔹 리더 참고 노트 (카드별)
       readerNotesBox.innerHTML = "";
