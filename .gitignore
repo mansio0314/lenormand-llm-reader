@@ -1,0 +1,20 @@
+# Python
+__pycache__/
+*.pyc
+
+# 가상환경
+venv/
+.env/
+.env*/
+*.env
+
+# IDE
+.vscode/
+.idea/
+
+# 기타
+.DS_Store
+
+# 업로드되면 안되는 폴더
+static/cards/*
+data/lenormand_notes.txt

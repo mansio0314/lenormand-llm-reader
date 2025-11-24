@@ -1,0 +1,204 @@
+{
+  "spreads": {
+    "past_present_future": {
+      "id": "past_present_future",
+      "name_en": "Past-Present-Future",
+      "name_ko": "과거-현재-미래",
+      "description_en": "Three-card timeline reading for quick clarity.",
+      "description_ko": "빠른 통찰을 위한 3장 타임라인 리딩.",
+      "card_count": 3,
+      "layout": {
+        "style": "row",
+        "rows": 1,
+        "columns": 3,
+        "orientation": "left-to-right"
+      },
+      "positions": [
+        {
+          "index": 1,
+          "slot": "past",
+          "label_en": "Past",
+          "label_ko": "과거",
+          "row": 1,
+          "column": 1,
+          "description_en": "Recent influence and setup.",
+          "description_ko": "최근 영향과 배경."
+        },
+        {
+          "index": 2,
+          "slot": "present",
+          "label_en": "Present",
+          "label_ko": "현재",
+          "row": 1,
+          "column": 2,
+          "description_en": "Current state and dominant theme.",
+          "description_ko": "현재 상태와 핵심 주제."
+        },
+        {
+          "index": 3,
+          "slot": "future",
+          "label_en": "Future",
+          "label_ko": "미래",
+          "row": 1,
+          "column": 3,
+          "description_en": "Emerging trajectory.",
+          "description_ko": "다가올 흐름."
+        }
+      ],
+      "notes": "Use for quick overview in any category."
+    },
+    "situation_obstacle_advice": {
+      "id": "situation_obstacle_advice",
+      "name_en": "Situation-Obstacle-Advice",
+      "name_ko": "상황-장애-조언",
+      "description_en": "Three-card problem solving layout.",
+      "description_ko": "문제 해결용 3장 레이아웃.",
+      "card_count": 3,
+      "layout": {
+        "style": "row",
+        "rows": 1,
+        "columns": 3,
+        "orientation": "left-to-right"
+      },
+      "positions": [
+        {
+          "index": 1,
+          "slot": "situation",
+          "label_en": "Situation",
+          "label_ko": "상황",
+          "row": 1,
+          "column": 1,
+          "description_en": "What is happening now.",
+          "description_ko": "현재 벌어지는 일."
+        },
+        {
+          "index": 2,
+          "slot": "obstacle",
+          "label_en": "Obstacle",
+          "label_ko": "장애",
+          "row": 1,
+          "column": 2,
+          "description_en": "Primary block or challenge.",
+          "description_ko": "주요 장애물."
+        },
+        {
+          "index": 3,
+          "slot": "advice",
+          "label_en": "Advice",
+          "label_ko": "조언",
+          "row": 1,
+          "column": 3,
+          "description_en": "Guidance forward.",
+          "description_ko": "향후 지침."
+        }
+      ],
+      "notes": "Use when a clear decision or guidance is needed."
+    },
+    "nine_box": {
+      "id": "nine_box",
+      "name_en": "3x3 Box Spread",
+      "name_ko": "3x3 박스 스프레드",
+      "description_en": "Nine-card pattern for situational depth.",
+      "description_ko": "상황을 입체적으로 보는 9장 배치.",
+      "card_count": 9,
+      "layout": {
+        "style": "grid",
+        "rows": 3,
+        "columns": 3,
+        "orientation": "top-to-bottom"
+      },
+      "positions": [
+        { "index": 1, "slot": "p1", "label_en": "P1", "label_ko": "1번", "row": 1, "column": 1 },
+        { "index": 2, "slot": "p2", "label_en": "P2", "label_ko": "2번", "row": 1, "column": 2 },
+        { "index": 3, "slot": "p3", "label_en": "P3", "label_ko": "3번", "row": 1, "column": 3 },
+        { "index": 4, "slot": "p4", "label_en": "P4", "label_ko": "4번", "row": 2, "column": 1 },
+        { "index": 5, "slot": "p5", "label_en": "P5", "label_ko": "5번", "row": 2, "column": 2 },
+        { "index": 6, "slot": "p6", "label_en": "P6", "label_ko": "6번", "row": 2, "column": 3 },
+        { "index": 7, "slot": "p7", "label_en": "P7", "label_ko": "7번", "row": 3, "column": 1 },
+        { "index": 8, "slot": "p8", "label_en": "P8", "label_ko": "8번", "row": 3, "column": 2 },
+        { "index": 9, "slot": "p9", "label_en": "P9", "label_ko": "9번", "row": 3, "column": 3 }
+      ],
+      "notes": "Read rows, columns, and diagonals for narratives."
+    },
+    "grand_tableau_8x4_plus4": {
+      "id": "grand_tableau_8x4_plus4",
+      "name_en": "Grand Tableau (8x4+4)",
+      "name_ko": "그랑 테이블로",
+      "description_en": "Full 36-card spread for comprehensive life overview.",
+      "description_ko": "전 영역을 다 보는 36장 풀 스프레드.",
+      "card_count": 36,
+      "layout": {
+        "style": "grid",
+        "rows": 5,
+        "columns": 8,
+        "orientation": "left-to-right"
+      },
+      "positions": [
+        { "index": 1, "slot": "gt_1", "label_en": "GT 1", "label_ko": "GT 1", "row": 1, "column": 1 },
+        { "index": 2, "slot": "gt_2", "label_en": "GT 2", "label_ko": "GT 2", "row": 1, "column": 2 },
+        { "index": 3, "slot": "gt_3", "label_en": "GT 3", "label_ko": "GT 3", "row": 1, "column": 3 },
+        { "index": 4, "slot": "gt_4", "label_en": "GT 4", "label_ko": "GT 4", "row": 1, "column": 4 },
+        { "index": 5, "slot": "gt_5", "label_en": "GT 5", "label_ko": "GT 5", "row": 1, "column": 5 },
+        { "index": 6, "slot": "gt_6", "label_en": "GT 6", "label_ko": "GT 6", "row": 1, "column": 6 },
+        { "index": 7, "slot": "gt_7", "label_en": "GT 7", "label_ko": "GT 7", "row": 1, "column": 7 },
+        { "index": 8, "slot": "gt_8", "label_en": "GT 8", "label_ko": "GT 8", "row": 1, "column": 8 },
+        { "index": 9, "slot": "gt_9", "label_en": "GT 9", "label_ko": "GT 9", "row": 2, "column": 1 },
+        { "index": 10, "slot": "gt_10", "label_en": "GT 10", "label_ko": "GT 10", "row": 2, "column": 2 },
+        { "index": 11, "slot": "gt_11", "label_en": "GT 11", "label_ko": "GT 11", "row": 2, "column": 3 },
+        { "index": 12, "slot": "gt_12", "label_en": "GT 12", "label_ko": "GT 12", "row": 2, "column": 4 },
+        { "index": 13, "slot": "gt_13", "label_en": "GT 13", "label_ko": "GT 13", "row": 2, "column": 5 },
+        { "index": 14, "slot": "gt_14", "label_en": "GT 14", "label_ko": "GT 14", "row": 2, "column": 6 },
+        { "index": 15, "slot": "gt_15", "label_en": "GT 15", "label_ko": "GT 15", "row": 2, "column": 7 },
+        { "index": 16, "slot": "gt_16", "label_en": "GT 16", "label_ko": "GT 16", "row": 2, "column": 8 },
+        { "index": 17, "slot": "gt_17", "label_en": "GT 17", "label_ko": "GT 17", "row": 3, "column": 1 },
+        { "index": 18, "slot": "gt_18", "label_en": "GT 18", "label_ko": "GT 18", "row": 3, "column": 2 },
+        { "index": 19, "slot": "gt_19", "label_en": "GT 19", "label_ko": "GT 19", "row": 3, "column": 3 },
+        { "index": 20, "slot": "gt_20", "label_en": "GT 20", "label_ko": "GT 20", "row": 3, "column": 4 },
+        { "index": 21, "slot": "gt_21", "label_en": "GT 21", "label_ko": "GT 21", "row": 3, "column": 5 },
+        { "index": 22, "slot": "gt_22", "label_en": "GT 22", "label_ko": "GT 22", "row": 3, "column": 6 },
+        { "index": 23, "slot": "gt_23", "label_en": "GT 23", "label_ko": "GT 23", "row": 3, "column": 7 },
+        { "index": 24, "slot": "gt_24", "label_en": "GT 24", "label_ko": "GT 24", "row": 3, "column": 8 },
+        { "index": 25, "slot": "gt_25", "label_en": "GT 25", "label_ko": "GT 25", "row": 4, "column": 1 },
+        { "index": 26, "slot": "gt_26", "label_en": "GT 26", "label_ko": "GT 26", "row": 4, "column": 2 },
+        { "index": 27, "slot": "gt_27", "label_en": "GT 27", "label_ko": "GT 27", "row": 4, "column": 3 },
+        { "index": 28, "slot": "gt_28", "label_en": "GT 28", "label_ko": "GT 28", "row": 4, "column": 4 },
+        { "index": 29, "slot": "gt_29", "label_en": "GT 29", "label_ko": "GT 29", "row": 4, "column": 5 },
+        { "index": 30, "slot": "gt_30", "label_en": "GT 30", "label_ko": "GT 30", "row": 4, "column": 6 },
+        { "index": 31, "slot": "gt_31", "label_en": "GT 31", "label_ko": "GT 31", "row": 4, "column": 7 },
+        { "index": 32, "slot": "gt_32", "label_en": "GT 32", "label_ko": "GT 32", "row": 4, "column": 8 },
+        { "index": 33, "slot": "gt_33", "label_en": "GT 33", "label_ko": "GT 33", "row": 5, "column": 1 },
+        { "index": 34, "slot": "gt_34", "label_en": "GT 34", "label_ko": "GT 34", "row": 5, "column": 2 },
+        { "index": 35, "slot": "gt_35", "label_en": "GT 35", "label_ko": "GT 35", "row": 5, "column": 3 },
+        { "index": 36, "slot": "gt_36", "label_en": "GT 36", "label_ko": "GT 36", "row": 5, "column": 4 }
+      ],
+      "notes": "Traditional Lenormand reading with houses and knighting possible."
+    },
+        "single_card_yes_no": {
+      "id": "single_card_yes_no",
+      "name_en": "Single Card Yes/No",
+      "name_ko": "한 장 예/아니오",
+      "description_en": "One-card yes/no style reading with nuance.",
+      "description_ko": "한 장으로 예/아니오와 간단한 흐름을 보는 리딩.",
+      "card_count": 1,
+      "layout": {
+        "style": "row",
+        "rows": 1,
+        "columns": 1,
+        "orientation": "left-to-right"
+      },
+      "positions": [
+        {
+          "index": 1,
+          "slot": "answer",
+          "label_en": "Answer",
+          "label_ko": "답변",
+          "row": 1,
+          "column": 1,
+          "description_en": "Core answer and its tone.",
+          "description_ko": "예/아니오와 그 방향성."
+        }
+      ],
+      "notes": "Use the card's tone to lean yes/no, but keep nuance."
+    }
+  }
+}

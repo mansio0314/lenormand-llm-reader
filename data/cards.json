@@ -1,0 +1,722 @@
+{
+  "1": {
+    "name_en": "Rider",
+    "name_ko": "기수",
+    "keywords_en": [
+      "message",
+      "news",
+      "arrival",
+      "movement",
+      "visitor"
+    ],
+    "keywords_ko": [
+      "소식",
+      "메시지",
+      "도착",
+      "움직임",
+      "방문자"
+    ],
+    "meaning_en": "News, messages, or a person arriving; fast movement and fresh developments.",
+    "meaning_ko": "새로운 소식이나 메시지, 누군가의 등장, 빠른 움직임과 전개를 의미한다."
+  },
+  "2": {
+    "name_en": "Clover",
+    "name_ko": "클로버",
+    "keywords_en": [
+      "luck",
+      "opportunity",
+      "small chance",
+      "serendipity",
+      "light-hearted"
+    ],
+    "keywords_ko": [
+      "행운",
+      "기회",
+      "작은 가능성",
+      "우연한 호재",
+      "가벼움"
+    ],
+    "meaning_en": "Small luck, short-lived opportunity, or a brief window of relief and joy.",
+    "meaning_ko": "짧게 스쳐 지나가는 작은 행운, 가벼운 호재, 잠깐 숨 돌릴 수 있는 여유를 뜻한다."
+  },
+  "3": {
+    "name_en": "Ship",
+    "name_ko": "배",
+    "keywords_en": [
+      "travel",
+      "distance",
+      "journey",
+      "foreign",
+      "transition"
+    ],
+    "keywords_ko": [
+      "여행",
+      "거리",
+      "이동",
+      "해외",
+      "변화의 여정"
+    ],
+    "meaning_en": "Travel, distance, foreign matters, or a longer-term transition or journey.",
+    "meaning_ko": "여행과 이동, 물리적·심리적 거리, 장기적인 변화의 여정을 나타낸다."
+  },
+  "4": {
+    "name_en": "House",
+    "name_ko": "집",
+    "keywords_en": [
+      "home",
+      "family",
+      "stability",
+      "privacy",
+      "comfort"
+    ],
+    "keywords_ko": [
+      "가정",
+      "가족",
+      "안정",
+      "사적인 공간",
+      "편안함"
+    ],
+    "meaning_en": "Home, family environment, personal base, or a focus on stability and comfort.",
+    "meaning_ko": "가정과 가족 분위기, 나만의 기반, 안정과 편안함에 대한 초점을 의미한다."
+  },
+  "5": {
+    "name_en": "Tree",
+    "name_ko": "나무",
+    "keywords_en": [
+      "health",
+      "growth",
+      "roots",
+      "longevity",
+      "slow development"
+    ],
+    "keywords_ko": [
+      "건강",
+      "성장",
+      "뿌리",
+      "장기적",
+      "느린 전개"
+    ],
+    "meaning_en": "Health, slow but deep growth, roots, and long-term development.",
+    "meaning_ko": "건강과 체력, 느리지만 깊게 자라는 성장, 뿌리와 장기적인 전개를 의미한다."
+  },
+  "6": {
+    "name_en": "Clouds",
+    "name_ko": "구름",
+    "keywords_en": [
+      "confusion",
+      "uncertainty",
+      "doubt",
+      "moodiness",
+      "lack of clarity"
+    ],
+    "keywords_ko": [
+      "혼란",
+      "불확실",
+      "의심",
+      "기분의 흐림",
+      "불분명함"
+    ],
+    "meaning_en": "Confusion, uncertainty, mental fog, or a temporary lack of clarity.",
+    "meaning_ko": "머릿속이 흐릿한 상태, 혼란과 불확실성, 상황이 아직 명확하지 않음을 뜻한다."
+  },
+  "7": {
+    "name_en": "Snake",
+    "name_ko": "뱀",
+    "keywords_en": [
+      "complication",
+      "temptation",
+      "betrayal",
+      "jealousy",
+      "manipulation"
+    ],
+    "keywords_ko": [
+      "복잡함",
+      "유혹",
+      "배신",
+      "질투",
+      "교묘한 조종"
+    ],
+    "meaning_en": "Complications, temptations, jealousy, or someone acting with hidden motives.",
+    "meaning_ko": "일을 꼬이게 만드는 요소, 유혹과 질투, 숨은 의도를 가진 인물을 나타낸다."
+  },
+  "8": {
+    "name_en": "Coffin",
+    "name_ko": "관",
+    "keywords_en": [
+      "ending",
+      "loss",
+      "closure",
+      "transformation",
+      "rest"
+    ],
+    "keywords_ko": [
+      "끝맺음",
+      "상실",
+      "마무리",
+      "변환",
+      "정지"
+    ],
+    "meaning_en": "Endings, loss, enforced rest, or the need to let something go to transform.",
+    "meaning_ko": "무언가의 끝, 상실과 정지, 놓아보냄을 통해 새로운 변화를 맞이해야 함을 뜻한다."
+  },
+  "9": {
+    "name_en": "Bouquet",
+    "name_ko": "꽃다발",
+    "keywords_en": [
+      "gift",
+      "invitation",
+      "beauty",
+      "joy",
+      "appreciation"
+    ],
+    "keywords_ko": [
+      "선물",
+      "초대",
+      "아름다움",
+      "기쁨",
+      "감사"
+    ],
+    "meaning_en": "Gifts, pleasant surprises, charm, and social or emotional appreciation.",
+    "meaning_ko": "선물과 초대, 기분 좋은 놀라움, 호감과 감사의 표현을 의미한다."
+  },
+  "10": {
+    "name_en": "Scythe",
+    "name_ko": "낫",
+    "keywords_en": [
+      "sudden",
+      "cut",
+      "decision",
+      "risk",
+      "severing"
+    ],
+    "keywords_ko": [
+      "갑작스러움",
+      "단절",
+      "결단",
+      "위험",
+      "잘라냄"
+    ],
+    "meaning_en": "Sudden cuts, sharp decisions, or a quick break from something; can indicate risk.",
+    "meaning_ko": "갑작스러운 전환, 단호한 결단, 관계나 상황을 잘라내는 일, 다소 위험 요소를 품는다."
+  },
+  "11": {
+    "name_en": "Whip",
+    "name_ko": "채찍",
+    "keywords_en": [
+      "conflict",
+      "arguments",
+      "repetition",
+      "tension",
+      "physicality"
+    ],
+    "keywords_ko": [
+      "갈등",
+      "언쟁",
+      "반복",
+      "긴장",
+      "육체성"
+    ],
+    "meaning_en": "Conflict, arguments, repetitive patterns, or strong physical/sexual energy.",
+    "meaning_ko": "말다툼과 마찰, 반복되는 패턴, 긴장감이 높은 상황이나 강한 육체적 에너지를 뜻한다."
+  },
+  "12": {
+    "name_en": "Birds",
+    "name_ko": "새들",
+    "keywords_en": [
+      "communication",
+      "nervousness",
+      "chatter",
+      "meetings",
+      "small talk"
+    ],
+    "keywords_ko": [
+      "소통",
+      "신경과민",
+      "잡담",
+      "만남",
+      "짧은 대화"
+    ],
+    "meaning_en": "Nervous communication, lots of talking, small meetings, or anxious thoughts.",
+    "meaning_ko": "조잘거리는 대화, 잦은 연락, 긴장 섞인 소통, 소규모 만남을 나타낸다."
+  },
+  "13": {
+    "name_en": "Child",
+    "name_ko": "아이",
+    "keywords_en": [
+      "new beginning",
+      "innocence",
+      "small",
+      "naive",
+      "playfulness"
+    ],
+    "keywords_ko": [
+      "새로운 시작",
+      "순수함",
+      "작은 것",
+      "풋풋함",
+      "장난기"
+    ],
+    "meaning_en": "New beginnings, something small or immature, naivety and playfulness.",
+    "meaning_ko": "새로 태어난 일, 아직 미숙하지만 가능성이 있는 시작, 순수함과 장난기를 의미한다."
+  },
+  "14": {
+    "name_en": "Fox",
+    "name_ko": "여우",
+    "keywords_en": [
+      "cunning",
+      "work",
+      "self-interest",
+      "caution",
+      "strategy"
+    ],
+    "keywords_ko": [
+      "약삭빠름",
+      "일과 직장",
+      "이기심",
+      "경계심",
+      "계산적"
+    ],
+    "meaning_en": "Cunning behavior, self-interest, work matters, or the need for clever strategy.",
+    "meaning_ko": "눈치 빠른 태도, 이익을 중시하는 행동, 직장·업무 문제, 계산과 전략이 필요한 상황을 뜻한다."
+  },
+  "15": {
+    "name_en": "Bear",
+    "name_ko": "곰",
+    "keywords_en": [
+      "power",
+      "protection",
+      "finances",
+      "authority",
+      "strength"
+    ],
+    "keywords_ko": [
+      "힘",
+      "보호자",
+      "재정",
+      "권위",
+      "강인함"
+    ],
+    "meaning_en": "Power, protection, authority figures, or strong financial influence.",
+    "meaning_ko": "든든한 보호자, 상사나 권위자, 큰돈과 재정 영향력, 힘 있는 존재를 나타낸다."
+  },
+  "16": {
+    "name_en": "Stars",
+    "name_ko": "별",
+    "keywords_en": [
+      "hope",
+      "guidance",
+      "inspiration",
+      "clarity",
+      "spirituality"
+    ],
+    "keywords_ko": [
+      "희망",
+      "길잡이",
+      "영감",
+      "맑은 시야",
+      "영적 에너지"
+    ],
+    "meaning_en": "Hope, long-term vision, inspiration, and clear guidance or direction.",
+    "meaning_ko": "희망과 비전, 영감과 통찰, 멀리 내다보는 시야와 인도받는 느낌을 의미한다."
+  },
+  "17": {
+    "name_en": "Stork",
+    "name_ko": "황새",
+    "keywords_en": [
+      "change",
+      "movement",
+      "upgrade",
+      "transition",
+      "improvement"
+    ],
+    "keywords_ko": [
+      "변화",
+      "이동",
+      "업그레이드",
+      "전환",
+      "개선"
+    ],
+    "meaning_en": "Changes, upgrades, movement to a better state, often involving home or family.",
+    "meaning_ko": "이사를 포함한 환경 변화, 더 나은 곳으로의 이동, 전반적인 개선과 업그레이드를 뜻한다."
+  },
+  "18": {
+    "name_en": "Dog",
+    "name_ko": "개",
+    "keywords_en": [
+      "loyalty",
+      "friendship",
+      "support",
+      "trust",
+      "dependable"
+    ],
+    "keywords_ko": [
+      "충성",
+      "우정",
+      "지지",
+      "신뢰",
+      "믿을 만함"
+    ],
+    "meaning_en": "Loyalty, faithful friends, support systems, and trustworthy companions.",
+    "meaning_ko": "의리 있는 친구, 내 편이 되어주는 사람, 신뢰와 지지를 상징한다."
+  },
+  "19": {
+    "name_en": "Tower",
+    "name_ko": "탑",
+    "keywords_en": [
+      "authority",
+      "structure",
+      "isolation",
+      "institution",
+      "boundaries"
+    ],
+    "keywords_ko": [
+      "권위",
+      "조직",
+      "고립",
+      "기관",
+      "경계"
+    ],
+    "meaning_en": "Institutions, structures, authority, or feeling separate and observing from above.",
+    "meaning_ko": "관공서·회사 같은 조직, 규칙과 위계, 고립감이나 거리를 두고 보는 시선을 의미한다."
+  },
+  "20": {
+    "name_en": "Garden",
+    "name_ko": "정원",
+    "keywords_en": [
+      "social",
+      "public",
+      "community",
+      "events",
+      "networking"
+    ],
+    "keywords_ko": [
+      "사회적",
+      "공개",
+      "커뮤니티",
+      "모임",
+      "인맥"
+    ],
+    "meaning_en": "Public spaces, social events, community, and networking opportunities.",
+    "meaning_ko": "사람들이 모이는 자리, 행사와 모임, 공개적인 공간과 인맥 형성을 나타낸다."
+  },
+  "21": {
+    "name_en": "Mountain",
+    "name_ko": "산",
+    "keywords_en": [
+      "obstacle",
+      "delay",
+      "blockage",
+      "challenge",
+      "endurance"
+    ],
+    "keywords_ko": [
+      "장애물",
+      "지연",
+      "막힘",
+      "도전",
+      "인내"
+    ],
+    "meaning_en": "Obstacles, delays, heavy blocks that require patience and endurance.",
+    "meaning_ko": "앞을 가로막는 큰 장애물, 진행의 지연, 꾸준한 인내가 필요한 난관을 뜻한다."
+  },
+  "22": {
+    "name_en": "Crossroads",
+    "name_ko": "갈림길",
+    "keywords_en": [
+      "choice",
+      "options",
+      "decision",
+      "divergence",
+      "direction"
+    ],
+    "keywords_ko": [
+      "선택",
+      "여러 갈래",
+      "결정",
+      "갈림길",
+      "진로"
+    ],
+    "meaning_en": "Choices, multiple paths, and the need to decide a direction.",
+    "meaning_ko": "여러 갈래길 중 하나를 골라야 하는 상황, 진로·방향성에 대한 결정을 의미한다."
+  },
+  "23": {
+    "name_en": "Mice",
+    "name_ko": "쥐",
+    "keywords_en": [
+      "loss",
+      "stress",
+      "erosion",
+      "worry",
+      "small problems"
+    ],
+    "keywords_ko": [
+      "손실",
+      "스트레스",
+      "잠식",
+      "걱정",
+      "사소한 문제"
+    ],
+    "meaning_en": "Gradual loss, stress, small nagging issues that nibble away at stability.",
+    "meaning_ko": "조금씩 새어 나가는 손실, 계속 마음을 갉아먹는 걱정, 사소하지만 누적되는 문제를 뜻한다."
+  },
+  "24": {
+    "name_en": "Heart",
+    "name_ko": "하트",
+    "keywords_en": [
+      "love",
+      "affection",
+      "emotion",
+      "romance",
+      "compassion"
+    ],
+    "keywords_ko": [
+      "사랑",
+      "호감",
+      "감정",
+      "연애",
+      "연민"
+    ],
+    "meaning_en": "Love, romance, heartfelt emotions, and deep affection or compassion.",
+    "meaning_ko": "연애 감정, 진심 어린 호감, 따뜻한 마음과 애정 표현을 의미한다."
+  },
+  "25": {
+    "name_en": "Ring",
+    "name_ko": "반지",
+    "keywords_en": [
+      "commitment",
+      "contract",
+      "cycle",
+      "promise",
+      "partnership"
+    ],
+    "keywords_ko": [
+      "약속",
+      "계약",
+      "순환",
+      "맺음",
+      "파트너십"
+    ],
+    "meaning_en": "Commitments, agreements, ongoing cycles, relationships or contracts.",
+    "meaning_ko": "약속과 계약, 계속 이어지는 관계, 파트너십과 공식적인 맺음을 상징한다."
+  },
+  "26": {
+    "name_en": "Book",
+    "name_ko": "책",
+    "keywords_en": [
+      "secrets",
+      "knowledge",
+      "study",
+      "hidden",
+      "mystery"
+    ],
+    "keywords_ko": [
+      "비밀",
+      "지식",
+      "공부",
+      "숨겨진 것",
+      "수수께끼"
+    ],
+    "meaning_en": "Hidden information, study, confidential matters, or things yet to be revealed.",
+    "meaning_ko": "아직 공개되지 않은 정보, 학습과 연구, 비밀스럽고 베일에 싸인 것을 의미한다."
+  },
+  "27": {
+    "name_en": "Letter",
+    "name_ko": "편지",
+    "keywords_en": [
+      "message",
+      "document",
+      "written",
+      "email",
+      "notification"
+    ],
+    "keywords_ko": [
+      "편지",
+      "문서",
+      "글로 된 소식",
+      "이메일",
+      "알림"
+    ],
+    "meaning_en": "Written communications, documents, emails, or important notifications.",
+    "meaning_ko": "편지·문자·이메일처럼 글로 전해지는 소식, 문서와 공지를 뜻한다."
+  },
+  "28": {
+    "name_en": "Man",
+    "name_ko": "남자",
+    "keywords_en": [
+      "male",
+      "querent",
+      "significator",
+      "masculine",
+      "active"
+    ],
+    "keywords_ko": [
+      "남성",
+      "당사자",
+      "대표 인물",
+      "남성성",
+      "능동성"
+    ],
+    "meaning_en": "A man, the querent (if male), or a significant masculine figure.",
+    "meaning_ko": "남성 인물,(질문자가 남자라면) 본인, 혹은 중요한 남성성을 띈 사람을 나타낸다."
+  },
+  "29": {
+    "name_en": "Woman",
+    "name_ko": "여자",
+    "keywords_en": [
+      "female",
+      "querent",
+      "significator",
+      "feminine",
+      "receptive"
+    ],
+    "keywords_ko": [
+      "여성",
+      "당사자",
+      "대표 인물",
+      "여성성",
+      "수용성"
+    ],
+    "meaning_en": "A woman, the querent (if female), or a significant feminine figure.",
+    "meaning_ko": "여성 인물, (질문자가 여자라면) 본인, 혹은 중요한 여성성을 띈 사람을 나타낸다."
+  },
+  "30": {
+    "name_en": "Lily",
+    "name_ko": "백합",
+    "keywords_en": [
+      "maturity",
+      "peace",
+      "sexuality",
+      "experience",
+      "ethics"
+    ],
+    "keywords_ko": [
+      "성숙",
+      "평온",
+      "성(性)적인 에너지",
+      "경험",
+      "도덕성"
+    ],
+    "meaning_en": "Maturity, peace, experience, sometimes sexuality or long-standing matters.",
+    "meaning_ko": "성숙함과 차분함, 오랜 경험에서 오는 품위, 때로는 성적인 에너지나 오래된 일을 의미한다."
+  },
+  "31": {
+    "name_en": "Sun",
+    "name_ko": "태양",
+    "keywords_en": [
+      "success",
+      "vitality",
+      "confidence",
+      "energy",
+      "victory"
+    ],
+    "keywords_ko": [
+      "성공",
+      "활력",
+      "자신감",
+      "에너지",
+      "승리"
+    ],
+    "meaning_en": "Success, strong energy, confidence, and positive outcomes.",
+    "meaning_ko": "밝은 성공, 넘치는 활력, 자신감과 유리한 전개, 승리의 기운을 뜻한다."
+  },
+  "32": {
+    "name_en": "Moon",
+    "name_ko": "달",
+    "keywords_en": [
+      "emotion",
+      "recognition",
+      "intuition",
+      "cycles",
+      "reputation"
+    ],
+    "keywords_ko": [
+      "감정",
+      "인정",
+      "직감",
+      "주기",
+      "명성"
+    ],
+    "meaning_en": "Emotions, intuition, recognition, cycles, and matters of reputation.",
+    "meaning_ko": "감정의 물결, 예민한 직감, 평판과 인정, 주기적으로 반복되는 흐름을 의미한다."
+  },
+  "33": {
+    "name_en": "Key",
+    "name_ko": "열쇠",
+    "keywords_en": [
+      "solution",
+      "revelation",
+      "unlock",
+      "destiny",
+      "certainty"
+    ],
+    "keywords_ko": [
+      "해결책",
+      "깨달음",
+      "열어 줌",
+      "운명적",
+      "확실함"
+    ],
+    "meaning_en": "Solutions, important revelations, unlocking something essential, certainty.",
+    "meaning_ko": "문제를 여는 열쇠, 중요한 깨달음, 결정적인 계기와 확실한 답을 상징한다."
+  },
+  "34": {
+    "name_en": "Fish",
+    "name_ko": "물고기",
+    "keywords_en": [
+      "money",
+      "flow",
+      "business",
+      "resources",
+      "independence"
+    ],
+    "keywords_ko": [
+      "돈",
+      "흐름",
+      "비즈니스",
+      "자원",
+      "자유로움"
+    ],
+    "meaning_en": "Finances, business, flow of resources, and material independence.",
+    "meaning_ko": "돈의 흐름, 장사·비즈니스, 자원과 유동성, 물질적인 자유를 의미한다."
+  },
+  "35": {
+    "name_en": "Anchor",
+    "name_ko": "닻",
+    "keywords_en": [
+      "stability",
+      "commitment",
+      "persistence",
+      "grounding",
+      "long-term"
+    ],
+    "keywords_ko": [
+      "안정",
+      "고정",
+      "지속성",
+      "단단한 기반",
+      "장기적"
+    ],
+    "meaning_en": "Stability, long-term commitment, steady persistence, grounding influences.",
+    "meaning_ko": "오랫동안 유지되는 것, 단단한 기반, 쉽게 흔들리지 않는 안정과 집착을 뜻한다."
+  },
+  "36": {
+    "name_en": "Cross",
+    "name_ko": "십자가",
+    "keywords_en": [
+      "burden",
+      "fate",
+      "suffering",
+      "karmic",
+      "spiritual test"
+    ],
+    "keywords_ko": [
+      "짐",
+      "운명",
+      "고통",
+      "업(業)적인",
+      "영적 시험"
+    ],
+    "meaning_en": "Burdens, heavy responsibilities, fated tests, or spiritual challenges.",
+    "meaning_ko": "어깨에 짊어진 짐, 피하기 어려운 시험과 업, 영적·정서적 부담을 의미한다."
+  }
+}

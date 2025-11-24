@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <title>Lenormand LLM Reader</title>
+  <link rel="stylesheet" href="/static/style.css" />
+  <style>
+    /* 스타일 파일 따로 쓰기 귀찮으면 여기서 바로 써도 됨 */
+
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: radial-gradient(circle at top, #f9f5ff, #e5e7eb);
+      margin: 0;
+      padding: 0;
+      color: #111827;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem 3rem;
+    }
+
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .subtitle {
+      color: #6b7280;
+      margin-bottom: 2rem;
+    }
+
+    .card {
+      background: rgba(255, 255, 255, 0.9);
+      border-radius: 1rem;
+      box-shadow: 0 10px 30px rgba(15, 23, 42, 0.12);
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+      border: 1px solid rgba(148, 163, 184, 0.4);
+    }
+
+    .reader-notes {
+      margin-top: 0.5rem;
+      padding-top: 0.5rem;
+      border-top: 1px dashed #e5e7eb;
+      font-size: 0.85rem;
+      color: #4b5563;
+    }
+
+    .reader-note-block {
+      margin-bottom: 0.75rem;
+    }
+
+    .reader-note-title {
+      font-weight: 600;
+      margin-bottom: 0.2rem;
+    }
+
+
+    label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 0.25rem;
+    }
+
+    textarea, select, button, input[type="text"] {
+      width: 100%;
+      box-sizing: border-box;
+      padding: 0.6rem 0.75rem;
+      border-radius: 0.6rem;
+      border: 1px solid #d1d5db;
+      font-size: 0.95rem;
+      margin-bottom: 1rem;
+      outline: none;
+    }
+
+    textarea {
+      min-height: 80px;
+      resize: vertical;
+    }
+
+    textarea:focus,
+    select:focus,
+    input[type="text"]:focus {
+      border-color: #6366f1;
+      box-shadow: 0 0 0 1px rgba(99, 102, 241, 0.3);
+    }
+
+    button {
+      background: linear-gradient(135deg, #6366f1, #ec4899);
+      color: white;
+      border: none;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 0.5rem;
+    }
+
+    button:hover {
+      filter: brightness(1.05);
+    }
+
+    .cards-grid {
+      display: grid;
+      gap: 1rem;
+    }
+
+    /* 3장 스프레드일 때 가로로 */
+    .cards-grid--3 {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .card-item {
+      background: white;
+      border-radius: 0.75rem;
+      padding: 0.9rem;
+      border: 1px solid rgba(209, 213, 219, 0.9);
+      box-shadow: 0 4px 12px rgba(15, 23, 42, 0.08);
+    }
+
+    .card-position {
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: #6b7280;
+      margin-bottom: 0.25rem;
+    }
+
+    .card-name {
+      font-weight: 700;
+      margin-bottom: 0.25rem;
+    }
+
+    .card-meaning {
+      font-size: 0.9rem;
+      color: #4b5563;
+    }
+
+    .section-title {
+      font-weight: 700;
+      margin-bottom: 0.3rem;
+    }
+
+    .action-list {
+      padding-left: 1.1rem;
+      margin: 0.2rem 0 0;
+      color: #4b5563;
+    }
+
+    .pill {
+      display: inline-block;
+      font-size: 0.75rem;
+      padding: 0.15rem 0.5rem;
+      border-radius: 999px;
+      background: #eef2ff;
+      color: #4f46e5;
+      margin-left: 0.4rem;
+      vertical-align: middle;
+    }
+
+    .small {
+      font-size: 0.8rem;
+      color: #9ca3af;
+    }
+
+    .loading {
+      font-size: 0.9rem;
+      color: #6b7280;
+    }
+
+    .error {
+      font-size: 0.9rem;
+      color: #b91c1c;
+      margin-top: 0.5rem;
+    }
+
+    .card-img {
+      width: 100%;
+      border-radius: 0.6rem;
+      margin-bottom: 0.5rem;
+      box-shadow: 0 4px 10px rgba(15, 23, 42, 0.25);
+      object-fit: cover;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="card">
+      <h1>Lenormand LLM Reader <span class="pill">beta</span></h1>
+      <p class="subtitle">질문을 적고 스프레드를 선택하면, 레노먼드 카드와 함께 LLM 리딩을 받아볼 수 있어요.</p>
+
+      <form id="reading-form">
+        <label for="question">질문 (한국어)</label>
+        <textarea id="question" placeholder="예: 지금 취업 준비 방향이 맞는지 알고 싶어요"></textarea>
+
+        <label for="category">카테고리</label>
+        <select id="category">
+          <option value="">(선택 안 함)</option>
+          <option value="love">연애 / 관계</option>
+          <option value="career">커리어</option>
+          <option value="finance">재정</option>
+          <option value="self">자기 이해</option>
+          <option value="other">기타 (직접 입력)</option>
+        </select>
+        
+        <div
+          id="category-custom-wrapper"
+          style="margin-top: 0.5rem; display: none;"
+        >
+          <input
+            id="category-custom"
+            type="text"
+            class="input"
+            placeholder="기타 카테고리 직접 입력 (예: 건강, 가족, 영적 등)"
+          />
+        </div>
+
+        <label for="spread">스프레드</label>
+        <select id="spread">
+          <option value="single_card_yes_no">한 장 예/아니오 (1장)</option>
+          <option value="past_present_future">과거-현재-미래 (3장)</option>
+          <option value="situation_obstacle_advice">상황-장애-조언 (3장)</option>
+          <option value="nine_box">3x3 박스 (9장)</option>
+          <option value="grand_tableau_8x4_plus4">그랑 테이블로 (36장)</option>
+        </select>
+
+        <button type="submit">리딩 요청하기 🔮</button>
+        <div id="status" class="loading" style="display:none;">카드를 섞는 중...</div>
+        <div id="error" class="error" style="display:none;"></div>
+      </form>
+    </div>
+
+      <div class="card">
+        <div class="section-title">카드 배열</div>
+        <div id="cards-container" class="cards-grid"></div>
+      </div>
+
+    <div id="result" style="display:none;">
+      <div class="card">
+        <div id="summary-block">
+          <div class="section-title">요약</div>
+          <p id="summary-text"></p>
+        </div>
+        <div style="margin-top: 1rem;">
+          <div class="section-title">전체 흐름</div>
+          <p id="overall-text"></p>
+        </div>
+        <div style="margin-top: 1rem;">
+          <div class="section-title">추천 행동</div>
+          <ul id="actions-list" class="action-list"></ul>
+        </div>
+        <div style="margin-top: 1rem;">
+          <div class="section-title">리더 참고 노트</div>
+          <div id="reader-notes-box" class="reader-notes"></div>
+        </div>
+        <p class="small" id="spread-label"></p>
+      </div>
+  </div>
+
+  <script>
+    const form = document.getElementById("reading-form");
+    const statusEl = document.getElementById("status");
+    const errorEl = document.getElementById("error");
+    const resultEl = document.getElementById("result");
+
+    const summaryText = document.getElementById("summary-text");
+    const readerNotesBox = document.getElementById("reader-notes-box");
+    const overallText = document.getElementById("overall-text");
+    const actionsList = document.getElementById("actions-list");
+    const cardsContainer = document.getElementById("cards-container");
+    const spreadLabel = document.getElementById("spread-label");
+
+    // 🔹 카테고리 관련 요소들 (전역에서 한 번만 잡기)
+    const categorySelect = document.getElementById("category");
+    const categoryCustomWrapper = document.getElementById("category-custom-wrapper");
+    const categoryCustom = document.getElementById("category-custom");
+
+    // 🔹 기타(직접 입력) 선택했을 때만 input 보이게
+    function updateCategoryInputVisibility() {
+      if (categorySelect.value === "other") {
+        categoryCustomWrapper.style.display = "block";
+      } else {
+        categoryCustomWrapper.style.display = "none";
+        categoryCustom.value = ""; // 다른 카테고리로 바꾸면 입력값 비우기
+      }
+    }
+
+    // 페이지 로드 시 한 번, 값 바뀔 때마다 한 번
+    updateCategoryInputVisibility();
+    categorySelect.addEventListener("change", updateCategoryInputVisibility);
+
+    function loadCardImage(imgEl, cardId) {
+      const webp = `/static/cards/${cardId}.webp`;
+      const png = `/static/cards/${cardId}.png`;
+
+      imgEl.src = webp;
+
+      imgEl.onerror = () => {
+        // webp 없으면 png 시도
+        imgEl.onerror = () => {
+          // png도 없으면 이미지 숨김
+          imgEl.style.display = "none";
+        };
+        imgEl.src = png;
+      };
+    }
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      errorEl.style.display = "none";
+      resultEl.style.display = "none";
+      statusEl.style.display = "block";
+      statusEl.textContent = "카드를 섞는 중...";
+
+      const question = document.getElementById("question").value.trim();
+
+      // 🔹 카테고리 값 결정 (select + 기타 입력칸)
+      let category = categorySelect.value;
+      if (category === "other") {
+        category = categoryCustom.value.trim() || "other";
+      }
+
+      const spread = document.getElementById("spread").value;
+
+      if (!question) {
+        statusEl.style.display = "none";
+        errorEl.style.display = "block";
+        errorEl.textContent = "질문을 먼저 입력해 주세요.";
+        return;
+      }
+
+      try {
+        const res = await fetch("/api/reading", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            question_ko: question,
+            category: category || null,
+            spread_type: spread
+          }),
+        });
+
+        if (!res.ok) {
+          throw new Error("서버 오류: " + res.status);
+        }
+
+        const data = await res.json();
+        statusEl.style.display = "none";
+        renderResult(data);
+      } catch (err) {
+        console.error(err);
+        statusEl.style.display = "none";
+        errorEl.style.display = "block";
+        errorEl.textContent = "리딩 중 오류가 발생했어요. 콘솔 로그를 확인해 주세요.";
+      }
+    });
+
+    function renderResult(data) {
+      resultEl.style.display = "block";
+
+      const rk = data.reading_ko || {};
+      summaryText.textContent = rk.summary_ko || "(요약 정보 없음)";
+      overallText.textContent = rk.overall_story_ko || "(전체 설명 없음)";
+
+      // 행동 리스트
+      actionsList.innerHTML = "";
+      const actions = rk.action_items_ko || [];
+      actions.forEach((item) => {
+        const li = document.createElement("li");
+        li.textContent = item;
+        actionsList.appendChild(li);
+      });
+
+      // 스프레드 정보
+      spreadLabel.textContent = `스프레드: ${data.spread_type || ""}`;
+
+      // 카드들
+      cardsContainer.innerHTML = "";
+      const cards = data.cards || [];
+
+      // 3장 스프레드면 가로 3열, 아니면 자동
+      if (cards.length === 3) {
+        cardsContainer.classList.add("cards-grid--3");
+      } else {
+        cardsContainer.classList.remove("cards-grid--3");
+      }
+
+      // 카드 배열 렌더링
+      cards.forEach((c) => {
+        const div = document.createElement("div");
+        div.className = "card-item";
+
+        // 1) 카드 이미지
+        const img = document.createElement("img");
+        img.className = "card-img";
+        loadCardImage(img, c.card_id);
+        div.appendChild(img);
+
+        // 2) 포지션 라벨
+        const pos = document.createElement("div");
+        pos.className = "card-position";
+        pos.textContent = c.position_label_ko || c.position_key || "";
+
+        // 3) 카드 이름
+        const name = document.createElement("div");
+        name.className = "card-name";
+        name.textContent = `${c.name_ko || ""} / ${c.name_en || ""}`;
+
+        // 4) 기본 의미
+        const meaning = document.createElement("div");
+        meaning.className = "card-meaning";
+        meaning.textContent = c.interpretation_ko || "(기본 의미 없음)";
+
+        div.appendChild(pos);
+        div.appendChild(name);
+        div.appendChild(meaning);
+
+        cardsContainer.appendChild(div);
+      });
+
+      // 🔹 리더 참고 노트 (카드별)
+      readerNotesBox.innerHTML = "";
+      let hasNotes = false;
+
+      (data.cards || []).forEach((c) => {
+        if (!c.reader_note) return;
+
+        hasNotes = true;
+        const block = document.createElement("div");
+        block.className = "reader-note-block";
+
+        const title = document.createElement("div");
+        title.className = "reader-note-title";
+        title.textContent = c.name_ko || c.name_en || "";
+
+        const body = document.createElement("div");
+        body.innerHTML = (c.reader_note || "").replace(/\n/g, "<br>");
+
+        block.appendChild(title);
+        block.appendChild(body);
+        readerNotesBox.appendChild(block);
+      });
+
+      if (!hasNotes) {
+        readerNotesBox.parentElement.style.display = "none";
+      } else {
+        readerNotesBox.parentElement.style.display = "block";
+      }
+    }
+  </script>
+
+</body>
+</html>
