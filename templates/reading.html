@@ -53,6 +53,21 @@
           </select>
         </div>
 
+        <!-- 🔹 모드 선택 -->
+        <label for="mode">모드 선택</label>
+        <select id="mode">
+          <option value="auto">랜덤 리딩 모드</option>
+          <option value="manual">오프라인 수동 입력 모드</option>
+        </select>
+
+        <!-- 🔹 수동 카드 입력 -->
+        <div id="manual-wrapper" style="display:none; margin-top:8px;">
+          <p class="small">
+            실제 덱에서 뽑은 카드 번호를 쉼표(,)로 구분해 입력하세요. 예: 5,17,30,9
+          </p>
+          <input id="manual-cards" type="text" placeholder="예: 5,17,30,9,24,34,2" />
+        </div>
+
         <button type="submit">리딩 요청하기 🔮</button>
         <div id="status" class="loading" style="display:none;">카드를 섞는 중...</div>
         <div id="error" class="error" style="display:none;"></div>
@@ -88,11 +103,199 @@
   </div>
 
   <script>
+    // TODO: 나중에 백엔드 cards.json이랑 실제로 동기화 할 수 있음
+    const CARD_DB = {
+      1: {
+        name_ko: "기수",
+        name_en: "Rider",
+        meaning_ko: "소식, 방문, 빠른 전개, 누군가 찾아옴."
+      },
+      2: {
+        name_ko: "클로버",
+        name_en: "Clover",
+        meaning_ko: "작은 행운, 우연한 기회, 가벼운 즐거움."
+      },
+      3: {
+        name_ko: "배",
+        name_en: "Ship",
+        meaning_ko: "이동, 여행, 거리, 외국과의 연결."
+      },
+      4: {
+        name_ko: "집",
+        name_en: "House",
+        meaning_ko: "가정, 안전, 사적인 공간, 기본 베이스."
+      },
+      5: {
+        name_ko: "나무",
+        name_en: "Tree",
+        meaning_ko: "건강, 성장, 뿌리, 시간이 걸리는 과정."
+      },
+      6: {
+        name_ko: "구름",
+        name_en: "Clouds",
+        meaning_ko: "혼란, 애매함, 불확실, 시야가 흐림."
+      },
+      7: {
+        name_ko: "뱀",
+        name_en: "Snake",
+        meaning_ko: "곡해, 경쟁자, 꼬인 상황, 집요함."
+      },
+      8: {
+        name_ko: "관",
+        name_en: "Coffin",
+        meaning_ko: "끝, 종료, 휴식, 전환 직전의 정지."
+      },
+      9: {
+        name_ko: "꽃다발",
+        name_en: "Bouquet",
+        meaning_ko: "기쁨, 초대, 칭찬, 선물, 호감."
+      },
+      10: {
+        name_ko: "낫",
+        name_en: "Scythe",
+        meaning_ko: "갑작스러운 잘림, 결단, 위험, 빠른 커트."
+      },
+      11: {
+        name_ko: "채찍",
+        name_en: "Whip",
+        meaning_ko: "갈등, 논쟁, 반복되는 패턴, 스트레스."
+      },
+      12: {
+        name_ko: "새들",
+        name_en: "Birds",
+        meaning_ko: "대화, 소통, 긴장감, 여러 사람의 말."
+      },
+      13: {
+        name_ko: "아이",
+        name_en: "Child",
+        meaning_ko: "새로운 시작, 미숙함, 작은 것, 순수함."
+      },
+      14: {
+        name_ko: "여우",
+        name_en: "Fox",
+        meaning_ko: "눈치, 계산, 일·직장, 자기 이익을 우선하는 태도."
+      },
+      15: {
+        name_ko: "곰",
+        name_en: "Bear",
+        meaning_ko: "강한 보호자, 상사, 재정적 영향, 힘 있는 존재."
+      },
+      16: {
+        name_ko: "별",
+        name_en: "Stars",
+        meaning_ko: "희망, 비전, 영감, 길잡이, 명확한 방향성."
+      },
+      17: {
+        name_ko: "황새",
+        name_en: "Stork",
+        meaning_ko: "변화, 이동, 이사, 발전, 상향 이동."
+      },
+      18: {
+        name_ko: "개",
+        name_en: "Dog",
+        meaning_ko: "친구, 충성, 믿을 수 있는 사람, 동료."
+      },
+      19: {
+        name_ko: "탑",
+        name_en: "Tower",
+        meaning_ko: "기관, 회사, 거리감, 고립, 높은 시야."
+      },
+      20: {
+        name_ko: "정원",
+        name_en: "Garden",
+        meaning_ko: "공공장소, 커뮤니티, 네트워크, 공개적인 자리."
+      },
+      21: {
+        name_ko: "산",
+        name_en: "Mountain",
+        meaning_ko: "큰 장애물, 지연, 오래 걸리는 난관."
+      },
+      22: {
+        name_ko: "길",
+        name_en: "Crossroads",
+        meaning_ko: "선택, 갈림길, 여러 옵션, 방향 전환."
+      },
+      23: {
+        name_ko: "쥐",
+        name_en: "Mice",
+        meaning_ko: "소모, 스트레스, 조금씩 깎이는 것, 불안."
+      },
+      24: {
+        name_ko: "하트",
+        name_en: "Heart",
+        meaning_ko: "사랑, 호의, 애정, 감정적인 연결."
+      },
+      25: {
+        name_ko: "반지",
+        name_en: "Ring",
+        meaning_ko: "계약, 약속, 반복되는 관계, 약정."
+      },
+      26: {
+        name_ko: "책",
+        name_en: "Book",
+        meaning_ko: "비밀, 공부, 숨겨진 정보, 배움."
+      },
+      27: {
+        name_ko: "편지",
+        name_en: "Letter",
+        meaning_ko: "문서, 메시지, 연락, 공지."
+      },
+      28: {
+        name_ko: "남성",
+        name_en: "Man",
+        meaning_ko: "질문자(남성) 또는 중요한 남성 인물."
+      },
+      29: {
+        name_ko: "여성",
+        name_en: "Woman",
+        meaning_ko: "질문자(여성) 또는 중요한 여성 인물."
+      },
+      30: {
+        name_ko: "백합",
+        name_en: "Lily",
+        meaning_ko: "성숙함, 오래된 것, 경력, 평화, 성적 에너지."
+      },
+      31: {
+        name_ko: "태양",
+        name_en: "Sun",
+        meaning_ko: "성공, 활력, 자신감, 강한 에너지, 좋은 결과."
+      },
+      32: {
+        name_ko: "달",
+        name_en: "Moon",
+        meaning_ko: "감정, 인지도, 명예, 직감, 리듬."
+      },
+      33: {
+        name_ko: "열쇠",
+        name_en: "Key",
+        meaning_ko: "해결책, 확실함, 중요한 포인트, 열리는 문."
+      },
+      34: {
+        name_ko: "물고기",
+        name_en: "Fish",
+        meaning_ko: "돈, 흐름, 사업, 자유, 유동성."
+      },
+      35: {
+        name_ko: "닻",
+        name_en: "Anchor",
+        meaning_ko: "안정, 고정, 직장, 오래 유지되는 상태."
+      },
+      36: {
+        name_ko: "십자가",
+        name_en: "Cross",
+        meaning_ko: "무거운 짐, 숙제, 운명감, 영적 부담."
+      }
+    };
+
     const form = document.getElementById("reading-form");
     const statusEl = document.getElementById("status");
     const errorEl = document.getElementById("error");
     const resultEl = document.getElementById("result");
     const querentSelect = document.getElementById("querent-card");
+    const modeSelect = document.getElementById("mode");
+    const manualWrapper = document.getElementById("manual-wrapper");
+    modeSelect.addEventListener("change", updateManualVisibility);
+    updateManualVisibility();
     const querentWrapper = document.getElementById("querent-wrapper");
     let currentQuerentCardId = null;
   
@@ -114,6 +317,49 @@
     spreadSelect.addEventListener("change", updateQuerentVisibility);
     updateQuerentVisibility();
 
+    function updateManualVisibility() {
+      if (modeSelect.value === "manual") {
+        manualWrapper.style.display = "block";
+      } else {
+        manualWrapper.style.display = "none";
+      }
+    }
+
+    function runManualReading() {
+      const raw = document.getElementById("manual-cards").value || "";
+      const arr = raw
+        .split(",")
+        .map(x => Number(x.trim()))
+        .filter(n => !isNaN(n) && n >= 1 && n <= 36);
+
+      if (arr.length === 0) {
+        alert("카드 번호를 하나 이상 입력하세요!");
+        return;
+      }
+
+      const cards = arr.map((id, idx) => {
+        const base = CARD_DB[id];
+        return {
+          card_id: id,
+          name_ko: base?.name_ko || "",
+          name_en: base?.name_en || "",
+          interpretation_ko: base?.meaning_ko || "",
+          position_label_ko: `${idx + 1}번`
+        };
+      });
+
+      const data = {
+        spread_type: "manual_custom", // 아무거나 OK
+        reading_ko: {
+          summary_ko: "(오프라인 모드: LLM 미사용)",
+          overall_story_ko: "직접 뽑은 카드들을 기반으로 자유 해석을 작성하는 모드입니다.",
+          action_items_ko: [],
+        },
+        cards: cards,
+      };
+
+      renderResult(data);
+    }
     
     // 🔹 기타(직접 입력) 선택했을 때만 input 보이게
     function updateCategoryInputVisibility() {
@@ -162,11 +408,20 @@
       e.preventDefault();
       errorEl.style.display = "none";
       resultEl.style.display = "none";
-      statusEl.style.display = "block";
-      statusEl.textContent = "카드를 섞는 중...";
 
       const question = document.getElementById("question").value.trim();
 
+      // 🔹 오프라인 수동 모드일 때는 로딩 없이 바로 처리
+      if (modeSelect.value === "manual") {
+        statusEl.style.display = "none";
+        runManualReading();
+        return;
+      }
+
+      // 🔹 자동 모드일 때만 로딩 메시지 표시
+      statusEl.style.display = "block";
+      statusEl.textContent = "카드를 섞는 중...";
+      
         // 질문자 카드 선택값 → 카드 번호로 매핑
       const qc = querentSelect.value; // "", "man", "woman"
       if (qc === "man") {
