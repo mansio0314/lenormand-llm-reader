@@ -13,6 +13,7 @@
         <label for="question">질문 (한국어)</label>
         <textarea id="question" placeholder="예: 지금 취업 준비 방향이 맞는지 알고 싶어요"></textarea>
 
+        <div id="auto-controls">
         <label for="category">카테고리</label>
         <select id="category">
           <option value="">(선택 안 함)</option>
@@ -51,6 +52,7 @@
             <option value="man">남성 (Man 카드)</option>
             <option value="woman">여성 (Woman 카드)</option>
           </select>
+        </div>
         </div>
 
         <!-- 🔹 모드 선택 -->
@@ -294,8 +296,7 @@
     const querentSelect = document.getElementById("querent-card");
     const modeSelect = document.getElementById("mode");
     const manualWrapper = document.getElementById("manual-wrapper");
-    modeSelect.addEventListener("change", updateManualVisibility);
-    updateManualVisibility();
+    const autoControls = document.getElementById("auto-controls");
     const querentWrapper = document.getElementById("querent-wrapper");
     let currentQuerentCardId = null;
   
@@ -317,13 +318,18 @@
     spreadSelect.addEventListener("change", updateQuerentVisibility);
     updateQuerentVisibility();
 
-    function updateManualVisibility() {
+    function updateModeUI() {
       if (modeSelect.value === "manual") {
-        manualWrapper.style.display = "block";
+        if (autoControls) autoControls.style.display = "none";
+        if (manualWrapper) manualWrapper.style.display = "block";
       } else {
-        manualWrapper.style.display = "none";
+        if (autoControls) autoControls.style.display = "block";
+        if (manualWrapper) manualWrapper.style.display = "none";
       }
     }
+
+    modeSelect.addEventListener("change", updateModeUI);
+    updateModeUI();
 
     function runManualReading() {
       const raw = document.getElementById("manual-cards").value || "";
