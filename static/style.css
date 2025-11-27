@@ -334,3 +334,17 @@ button:active {
   color: white;
   letter-spacing: 0.06em;
 }
+
+/* LLM 요약/흐름 텍스트 공통 스타일 */
+.reading-text {
+  white-space: pre-line;     /* \n 을 실제 줄바꿈으로 보여줌 */
+  line-height: 1.7;          /* 줄 간격 넓게 */
+  font-size: 0.95rem;
+  color: #111827;
+  margin-bottom: 14px;
+}
+
+/* 추천 행동 리스트도 살짝 여백 */
+.actions-list li {
+  margin-bottom: 4px;
+}
