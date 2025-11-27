@@ -1,5 +1,9 @@
 from fastapi import FastAPI, Request                 # ← Request 추가
 from fastapi.middleware.cors import CORSMiddleware
+from dotenv import load_dotenv
+
+load_dotenv()
+
 from fastapi.responses import HTMLResponse           # ← 추가
 from fastapi.staticfiles import StaticFiles          # ← 추가
 from fastapi.templating import Jinja2Templates       # ← 추가
