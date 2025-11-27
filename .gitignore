@@ -18,3 +18,4 @@ venv/
 # 업로드되면 안되는 폴더
 static/cards/*
 data/lenormand_notes.txt
+tools/*

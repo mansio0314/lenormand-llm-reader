@@ -63,3 +63,15 @@ Set `NEXT_PUBLIC_API_BASE_URL` (default `http://localhost:8000`) to point to the
 - Integrate an LLM provider in `services/llm_client.py`.
 - Fill `cards.json` with English/Korean names, keywords per domain, and interpretations per schema.
 - Add authentication, rate limiting, and persistence as needed.
+
+## Manual Test (LLM + Translation)
+- Start backend: `uvicorn main:app --reload`
+- POST to `http://localhost:8000/api/reading` with:
+  ```json
+  {
+    "question_ko": "지금 취업 준비 방향이 맞는지 알고 싶어요",
+    "category": "career",
+    "spread_type": "past_present_future"
+  }
+  ```
+- Expect HTTP 200, `reading_en.summary_en` populated in English, `reading_ko.summary_ko` populated in Korean, `cards` and `spread_type` unchanged.
