@@ -87,7 +87,7 @@ lenormand-llm-reader/
 > * `tools/` → local helpers, experiments
 > * `.env`, `.env*`, `venv/` → secrets & local environment
 >
-> 이 리포는 실제 배포용이 아니라, **구조/흐름을 보여주는 프로토타입**이라는 점을 강조합니다.
+> 이 리포는 실제 배포용이 아니라, **구조/흐름을 보여주는 프로토타입**입니다.
 
 ---
 
