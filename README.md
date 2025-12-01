@@ -3,9 +3,6 @@
 
 *A bilingual Lenormand reading service prototype powered by an LLM.*
 
-<p align="center">
-  <img src="static/preview_temp.jpg" width="460" alt="Lenormand LLM Reader preview (temporary image)" />
-</p>
 
 <p align="center">
   <em>⚠️ The preview image above is a temporary placeholder. It may use artwork with unclear copyright status and is NOT intended for redistribution. Will be replaced with original assets later.</em>
