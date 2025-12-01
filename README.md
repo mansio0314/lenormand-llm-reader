@@ -277,3 +277,82 @@ Built as a personal exploration into:
 
 Author: **따옴표**
 LLM collaborator: **Rico**
+
+---
+
+## 🃏 Additional Reading Mode: Single-Card (YES/NO/MAYBE)
+
+레노먼드의 강점 중 하나는 **단일 카드로도 간단한 YES/NO/MAYBE 판정을 할 수 있다는 점**입니다.  
+본 프로젝트에서는 이 장점을 활용하기 위해 **Single-Card Draw** 모드를 지원합니다.
+
+### 🔍 Why Single-Card Mode?
+- 즉각적인 직관적 답변 제공  
+- 사용자의 짧은 질문에도 빠르게 대응 가능  
+- 상담/리딩 상황에서 “빠른 1차 가이드”로 활용 가능  
+- 장문의 스프레드 이전에 *초기 방향성* 제시 가능  
+
+### ✔️ YES/NO/MAYBE 예시 (Realistic Lenormand Style)
+
+아래 예시는 실제 레노먼드 해석 흐름에 맞춘 간단한 판정 스타일입니다.  
+(LLM 해석과 사람 리더의 직관을 결합해 사용할 수 있는 구조로 기획되었습니다.)
+
+| Card | Interpretation | Verdict |
+|------|----------------|---------|
+| **Sun** ☀️ | 성공, 명확성, 긍정, 활력 | **YES** |
+| **Clover** 🍀 | 예상외의 기회, 가벼운 행운 | **YES (light)** |
+| **Rider** 🏇 | 변화의 시작, 방문, 메시지 | **Maybe → 상황 더 필요** |
+| **Clouds** ☁️ | 혼란, 불확실성, 흐림 | **MAYBE/NO** |
+| **Mountain** ⛰ | 지연, 장애물, 단단한 벽 | **NO** |
+| **Coffin** ⚰️ | 종료, 마무리, 침체 | **NO** |
+
+### ✔ Example Output  
+**Question:**  
+“제가 준비한 포트폴리오가 이번 주에 좋은 결과를 가져올까요?”
+
+**Card Drawn:** *Sun*
+
+**Quick Interpretation:**  
+긍정적 결과가 기대되며 흐름이 당신에게 유리하게 작용할 가능성이 큽니다.
+
+**Verdict:** **YES**
+
+---
+
+## 💬 Hybrid Reading Concept (Human + LLM)
+
+본 프로젝트는 단순 LLM 자동화 리딩이 아니라,  
+**“사람 리더의 해석 + LLM의 텍스트 생성 능력”을 결합하는 모델**을 목표로 기획되었습니다.
+
+### 🔎 기획 의도
+- 상담자가 기존에 하는 리딩 방식과 LLM의 장문 표현력을 결합  
+- 단일 카드/소형 스프레드에서는 리더의 판단을 우선  
+- 장문 스토리텔링이 필요한 상황에서는 LLM을 보조로 활용  
+- 상담자마다 해석 스타일이 다르므로, *노트 파일*을 별도로 두어  
+  → **리더 개인의 해석을 LLM 컨텍스트에 자연스럽게 녹이도록 설계**
+
+### 🧠 The Pipeline Supports Hybrid Reading Naturally  
+1) 사람이 스프레드를 보고 **핵심 메시지/테마를 먼저 잡음**  
+2) `lenormand_notes.txt` 에 자신의 해석 철학을 적재  
+3) LLM prompt에 카드 의미 + 개인 노트 + 질문이 함께 들어감  
+4) LLM은 **리더의 세계관에 맞춘 리딩 텍스트**를 자동 생성  
+5) 상담자는  
+   - 빠른 직관(YES/NO)  
+   - 자기만의 해석  
+   - LLM이 생성한 장문 설명  
+   을 조합해서 **최종 리딩을 상담자에게 제공**
+
+→ 즉, 본 프로젝트는 ‘AI가 사람을 대체’하는 구조가 아니라,  
+**사람 리더의 해석을 강화하는 지원형 설계(Decision-Augmentation)** 를 중심에 두고 있음.
+
+
+## 🎯 Why This Matters (As an AI Service Planner / PM)
+
+이 구조는 실제 상담/리딩 서비스에서도 매우 경쟁력 있는 UX입니다.
+
+- 단일 카드 YES/NO → ‘즉각 응답’ 경험 제공  
+- Multi-card spread → 심층 리딩 제공  
+- Hybrid Reading → 상담자의 전문성 + AI의 언어 능력 결합  
+- 개인 노트 기반 RAG → **리더마다 다른 해석 스타일을 반영 가능**  
+- 확장성: 상담 기록, 사용자 맞춤 리딩, LLM 페르소나 조정 등으로 확장 용이  
+
+본 설계는 “AI가 기존 해석자/리더의 역량을 강화한다”는 목표를 기반으로 진행되었습니다.
