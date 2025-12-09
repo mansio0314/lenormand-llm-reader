@@ -92,17 +92,17 @@ flowchart TD
 ```mermaid
 flowchart TD
     U[User] --> UI[Frontend]
-    UI -->|POST /api/reading (single)| BE[Backend]
+    UI --> BE[Backend API]
 
     BE --> DRAW[Draw 1 card]
-    DRAW --> RULE[YES/NO/MAYBE Mapping]
+    DRAW --> RULE[YES / NO / MAYBE mapping]
 
-    RULE -->|Optional| LLM[(LLM Explanation)]
-    LLM --> TEXT[Short Advice]
+    RULE --> LLM[(LLM – optional)]
+    LLM --> TEXT[Short advice]
     RULE --> TEXT
 
-    TEXT --> RESP[Response]
-    RESP --> UI_RENDER[Display Result]
+    TEXT --> RESP[Response JSON]
+    RESP --> UI_RENDER[Display result]
 ```
 
 ---
