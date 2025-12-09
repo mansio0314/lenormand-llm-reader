@@ -280,79 +280,171 @@ LLM collaborator: **Rico**
 
 ---
 
-## 🃏 Additional Reading Mode: Single-Card (YES/NO/MAYBE)
+## 1. User-facing Service Flow
 
-레노먼드의 강점 중 하나는 **단일 카드로도 간단한 YES/NO/MAYBE 판정을 할 수 있다는 점**입니다.  
-본 프로젝트에서는 이 장점을 활용하기 위해 **Single-Card Draw** 모드를 지원합니다.
-
-### 🔍 Why Single-Card Mode?
-- 즉각적인 직관적 답변 제공  
-- 사용자의 짧은 질문에도 빠르게 대응 가능  
-- 상담/리딩 상황에서 “빠른 1차 가이드”로 활용 가능  
-- 장문의 스프레드 이전에 *초기 방향성* 제시 가능  
-
-### ✔️ YES/NO/MAYBE 예시 (Realistic Lenormand Style)
-
-아래 예시는 실제 레노먼드 해석 흐름에 맞춘 간단한 판정 스타일입니다.  
-(LLM 해석과 사람 리더의 직관을 결합해 사용할 수 있는 구조로 기획되었습니다.)
-
-| Card | Interpretation | Verdict |
-|------|----------------|---------|
-| **Sun** ☀️ | 성공, 명확성, 긍정, 활력 | **YES** |
-| **Clover** 🍀 | 예상외의 기회, 가벼운 행운 | **YES (light)** |
-| **Rider** 🏇 | 변화의 시작, 방문, 메시지 | **Maybe → 상황 더 필요** |
-| **Clouds** ☁️ | 혼란, 불확실성, 흐림 | **MAYBE/NO** |
-| **Mountain** ⛰ | 지연, 장애물, 단단한 벽 | **NO** |
-| **Coffin** ⚰️ | 종료, 마무리, 침체 | **NO** |
-
-### ✔ Example Output  
-**Question:**  
-“제가 준비한 포트폴리오가 이번 주에 좋은 결과를 가져올까요?”
-
-**Card Drawn:** *Sun*
-
-**Quick Interpretation:**  
-긍정적 결과가 기대되며 흐름이 당신에게 유리하게 작용할 가능성이 큽니다.
-
-**Verdict:** **YES**
+This section describes the end-to-end flow of the Lenormand LLM Reader
+from the user's point of view.  
+(Technical details such as FastAPI/Next.js wiring are handled underneath
+this flow.)
 
 ---
 
-## 💬 Hybrid Reading Concept (Human + LLM)
+### 1.1 Entry: starting a reading
 
-본 프로젝트는 단순 LLM 자동화 리딩이 아니라,  
-**“사람 리더의 해석 + LLM의 텍스트 생성 능력”을 결합하는 모델**을 목표로 기획되었습니다.
+1. The user opens the web app and lands on the reading screen (`/reading`).
+2. The page shows:
+   - A text field for the user's question (in Korean).
+   - Optional category selector (e.g. "career", "relationship").
+   - Spread selection UI (multi-card spreads and single-card mode).
+   - A submit button to start the reading.
 
-### 🔎 기획 의도
-- 상담자가 기존에 하는 리딩 방식과 LLM의 장문 표현력을 결합  
-- 단일 카드/소형 스프레드에서는 리더의 판단을 우선  
-- 장문 스토리텔링이 필요한 상황에서는 LLM을 보조로 활용  
-- 상담자마다 해석 스타일이 다르므로, *노트 파일*을 별도로 두어  
-  → **리더 개인의 해석을 LLM 컨텍스트에 자연스럽게 녹이도록 설계**
+User intent at this step:
+- "I have a question about my life/situation."
+- "I want a Lenormand-style reading with minimal friction."
+- "I want to see both symbolic cards and a natural-language explanation."
 
-### 🧠 The Pipeline Supports Hybrid Reading Naturally  
-1) 사람이 스프레드를 보고 **핵심 메시지/테마를 먼저 잡음**  
-2) `lenormand_notes.txt` 에 자신의 해석 철학을 적재  
-3) LLM prompt에 카드 의미 + 개인 노트 + 질문이 함께 들어감  
-4) LLM은 **리더의 세계관에 맞춘 리딩 텍스트**를 자동 생성  
-5) 상담자는  
-   - 빠른 직관(YES/NO)  
-   - 자기만의 해석  
-   - LLM이 생성한 장문 설명  
-   을 조합해서 **최종 리딩을 상담자에게 제공**
+---
 
-→ 즉, 본 프로젝트는 ‘AI가 사람을 대체’하는 구조가 아니라,  
-**사람 리더의 해석을 강화하는 지원형 설계(Decision-Augmentation)** 를 중심에 두고 있음.
+### 1.2 Multi-card spread flow
 
+This is the default flow for "real" Lenormand readings
+(e.g. Past–Present–Future, Situation–Obstacle–Advice, 3×3 Box).
 
-## 🎯 Why This Matters (As an AI Service Planner / PM)
+1. The user types a **Korean question**  
+   e.g. `"지금 취업 준비 방향이 맞는지 알고 싶어요."`
+2. The user chooses a **category**, such as `"career"`.
+3. The user selects a **spread type**, for example:
+   - `past_present_future`
+   - `situation_obstacle_advice`
+   - `box_3x3`
+   - `grand_tableau`
+4. The user clicks **"Start reading"** (or equivalent call-to-action).
+5. The frontend sends a `POST /api/reading` request with:
+   - `question_ko` (string)
+   - `category` (string)
+   - `spread_type` (string)
+6. The backend:
+   - Loads spread definition and card templates from `data/spreads.json` and `data/cards.json`.
+   - Samples and shuffles cards according to the chosen spread.
+   - Builds an internal prompt for the LLM (EN) using:
+     - The user’s question (translated into English if needed),
+     - Selected cards and their positions,
+     - Optional Lenormand keywords/metadata.
+   - Calls the LLM client to generate an **English reading**:
+     - `summary_en`
+     - `overall_story_en`
+     - `action_items_en[]`
+   - Calls the translation client to produce a **Korean reading**:
+     - `summary_ko`
+     - `overall_story_ko`
+     - `action_items_ko[]`
+   - Returns a structured JSON response back to the frontend:
+     - `reading_en`, `reading_ko`
+     - `cards[]` (ids, layout, position labels)
+     - `spread_type`
+7. The frontend renders:
+   - The chosen spread layout (grid/rows/columns).
+   - Each sampled card in its position (via `CardView`).
+   - The LLM-generated reading (via `ResultView`):
+     - English block (optional)
+     - Korean block (main user-facing output)
+8. The user reads:
+   - A **visual spread** (which cards appeared where),
+   - A **bilingual textual interpretation**, including:
+     - High-level summary,
+     - Narrative explanation,
+     - Concrete suggestions / action items.
 
-이 구조는 실제 상담/리딩 서비스에서도 매우 경쟁력 있는 UX입니다.
+From the user perspective:
+- They asked a single question in Korean,
+- Selected a spread,
+- Received a structured Lenormand reading that feels similar
+  to a human reader’s long-form explanation.
 
-- 단일 카드 YES/NO → ‘즉각 응답’ 경험 제공  
-- Multi-card spread → 심층 리딩 제공  
-- Hybrid Reading → 상담자의 전문성 + AI의 언어 능력 결합  
-- 개인 노트 기반 RAG → **리더마다 다른 해석 스타일을 반영 가능**  
-- 확장성: 상담 기록, 사용자 맞춤 리딩, LLM 페르소나 조정 등으로 확장 용이  
+---
 
-본 설계는 “AI가 기존 해석자/리더의 역량을 강화한다”는 목표를 기반으로 진행되었습니다.
+### 1.3 Single-card quick mode (YES / NO / MAYBE)
+
+This mode supports very fast, lightweight readings for short questions.
+
+1. The user chooses **Single-Card mode** in the spread selector.
+2. The user types a short, focused question in Korean:  
+   e.g. `"이번 주에 지원한 포지션에서 연락이 올까요?"`
+3. The user clicks the button to draw a single card.
+4. The backend:
+   - Draws exactly one card from the Lenormand deck.
+   - Interprets the card using predefined YES/NO/MAYBE rules.
+     - e.g. `Sun → YES`, `Clover → light YES`,
+       `Rider → MAYBE`, `Mountain → NO`, etc.
+   - Optionally calls the LLM to frame the verdict as:
+     - A short explanation,
+     - Simple guidance in natural language.
+5. The frontend shows:
+   - The drawn card (icon/name),
+   - A short text like:
+     - Quick interpretation (1–3 sentences),
+     - Final verdict: YES / NO / MAYBE.
+
+User experience:
+- Very low friction.
+- Immediate, intuitive answer.
+- Can be used as a "first check" before a larger spread reading.
+
+---
+
+### 1.4 Hybrid reading concept (human + LLM)
+
+The system is designed so that a human Lenormand reader
+can stay in the loop instead of being replaced.
+
+Conceptually, the flow can work as:
+
+1. The **human reader** looks at the spread and writes or updates
+   their own notes in a local file (e.g. `lenormand_notes.txt`):
+   - personal interpretations,
+   - favorite key phrases,
+   - their own reading style.
+2. The system can load these notes as part of the LLM context
+   (future RAG-style enhancement).
+3. When the user requests a reading, the LLM receives:
+   - card metadata (from `cards.json`),
+   - spread structure (from `spreads.json`),
+   - the user’s question,
+   - and optionally, the reader’s notes.
+4. The LLM generates a reading that follows the
+   **reader’s own worldview and style**.
+5. The human reader:
+   - Combines:
+     - Their quick intuition (YES/NO),
+     - Their own interpretation,
+     - The LLM’s long-form explanation,
+   - And delivers a final, hybrid reading to the end user.
+
+This makes the service an **augmentation tool** for human readers,
+not a replacement:
+- Fast single-card answers,
+- Deeper multi-card spreads,
+- Flexible integration of the reader’s unique style.
+
+---
+
+### 1.5 Summary of user flow
+
+High-level user journey:
+
+1. Open the Lenormand Reader web app.
+2. Enter a question in Korean.
+3. Choose:
+   - Single-card quick mode, or
+   - Multi-card spread type (Past–Present–Future, SOA, 3×3, etc.).
+4. Submit the request.
+5. See:
+   - The card(s) drawn and their layout,
+   - A bilingual reading (EN/KO),
+   - Optional explicit YES/NO/MAYBE verdict for single-card mode.
+6. Optionally repeat with another question or spread.
+
+The entire experience models how a real Lenormand reader
+would structure a session, while using an LLM to handle
+the long-form narrative and translations.
+
