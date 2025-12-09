@@ -1,450 +1,326 @@
 
-# 🎴 Lenormand LLM Reader (FastAPI + Next.js)
+# 🔮 Lenormand LLM Reader
+*A structured, narrative-driven Lenormand reading system powered by GPT-based LLMs.*
 
-*A bilingual Lenormand reading service prototype powered by an LLM.*
-
-
-<p align="center">
-  <em>⚠️ The preview image above is a temporary placeholder. It may use artwork with unclear copyright status and is NOT intended for redistribution. Will be replaced with original assets later.</em>
-</p>
-
----
-
-<p align="center">
-  <img src="https://img.shields.io/badge/Python-3.10%2B-3776AB?style=for-the-badge&logo=python" />
-  <img src="https://img.shields.io/badge/FastAPI-Backend-009688?style=for-the-badge&logo=fastapi" />
-  <img src="https://img.shields.io/badge/Next.js-Frontend-000000?style=for-the-badge&logo=next.js" />
-  <img src="https://img.shields.io/badge/TypeScript-4.x-3178C6?style=for-the-badge&logo=typescript" />
-  <img src="https://img.shields.io/badge/LLM-OpenAI_mock-412991?style=for-the-badge&logo=openai" />
-</p>
+This project transforms Lenormand card readings into a consistent, interpretable,
+and emotionally supportive LLM-powered experience.  
+It combines traditional Lenormand logic with modern prompt engineering,
+structured outputs, and a modular architecture suitable for future expansion.
 
 ---
 
-## ✨ Overview
+# 1. Overview
 
-**Lenormand LLM Reader** is a prototype stack for a **bilingual Lenormand reading service**:
+The Lenormand LLM Reader provides:
 
-- **FastAPI** backend  
-  - Handles spread logic, shuffling, basic request/response models  
-  - Provides stubs for LLM + translation services  
-- **Next.js** frontend  
-  - Minimal UI to send a question, choose a spread, and render results  
+- Structured multi-card narrative readings  
+- Fast single-card YES/NO/MAYBE decisions  
+- Bilingual output (EN → KO)  
+- Traditional Lenormand techniques (center/mirror/chain) baked into the prompt  
+- A modular system that can extend into memory-enabled or persona-driven agents  
 
-The goal is to model the **end-to-end flow** of:
-
-> “Korean question → spread selection → card sampling → LLM reading (EN) → translated reading (KO)”
-
-…while keeping all LLM / translation bits swappable.
+This project was initially designed for personal use (Korean UX),  
+but the architecture supports multilingual deployment and further productization.
 
 ---
 
-## 📂 Project Structure
+# 2. User-facing Service Flow
 
-현재 리포 폴더 기준으로 실제 구조를 반영한 프로젝트 개요:
+## 2.1 Multi-card Reading Flow
 
-```text
-lenormand-llm-reader/
-│
-├── main.py               # FastAPI app bootstrap & router include
-│
-├── api/
-│   └── reading.py        # /api/reading endpoint, Pydantic models, wiring
-│
-├── services/             # Pluggable service layer
-│   ├── llm_client.py         # Prompt builder + mock LLM response
-│   ├── translation_client.py # Mock translator (ko <-> en)
-│   └── spread_engine.py      # Loads spreads/cards, shuffles, assigns positions
-│
-├── data/                 # JSON templates (deck & spreads)
-│   ├── cards.json            # Keys 1..36 prepared for Lenormand metadata
-│   └── spreads.json          # Past–Present–Future, SOA, 3x3 box, Grand Tableau
-│   # (ignored) lenormand_notes.txt - personal notes, excluded via .gitignore
-│
-├── pages/                # Next.js pages
-│   ├── index.tsx             # Landing / entry page
-│   └── reading.tsx           # Reading request + result rendering
-│
-├── components/           # Frontend building blocks
-│   ├── SpreadSelector.tsx    # Choose spread type
-│   ├── CardView.tsx          # Individual card view
-│   └── ResultView.tsx        # LLM reading display
-│
-├── static/               # Static assets (preview images, etc.)
-│   └── cards/                # Card artwork (ignored by git)
-│
-├── templates/            # (Optional) HTML templates for manual testing
-│
-├── test_spread.py        # Quick Python-side sanity tests for spread_engine
-│
-├── .gitignore            # venv/.env, static/cards, data/lenormand_notes, tools/…
-└── README.md
+1. User opens `/reading`
+2. Inputs a question (Korean)
+3. Selects:
+   - category (optional)
+   - spread type (PPF, SOA, 3×3, Grand Tableau, etc.)
+4. Frontend sends `POST /api/reading`
+5. Backend:
+   - loads card/spread JSON
+   - samples cards
+   - builds structured LLM prompt (EN)
+   - receives structured JSON reading (EN)
+   - converts to Korean
+6. Frontend renders:
+   - card layout
+   - summary / narrative / actions
+
+## 2.2 Single-card YES/NO Flow
+
+1. User enters short question  
+2. One card is drawn  
+3. System applies YES/NO/MAYBE mapping  
+4. Optional LLM explanation  
+5. UI shows verdict + short guidance  
+
+## 2.3 Hybrid (Human-in-the-loop) Concept
+
+The system allows human readers to augment LLM outputs via:
+
+- personalized notes  
+- interpretation preferences  
+- tone/style guidelines  
+
+This can be incorporated through lightweight RAG.
+
+---
+
+# 3. User Flow Diagrams (Mermaid)
+
+## 3.1 Multi-card Reading
+
+```mermaid
+flowchart TD
+    U[User] -->|Question + Spread| UI[Frontend UI]
+    UI -->|POST /api/reading| BE[Backend]
+
+    subgraph S[Backend Processing]
+        BE --> CFG[Load cards.json + spreads.json]
+        CFG --> DRAW[Sample & shuffle cards]
+        DRAW --> PROMPT[Build LLM Prompt]
+        PROMPT --> LLM[(LLM)]
+        LLM --> EN[English Reading JSON]
+        EN --> KO[Korean Translation]
+        KO --> RESP[Response JSON]
+    end
+
+    RESP --> UI_RENDER[Render Spread + Reading]
+    UI_RENDER --> U_R[User Reads Output]
 ````
 
-> 🔒 **Privacy / Safety Note (.gitignore)**
->
-> * `static/cards/*` → card images that might have copyright issues
-> * `data/lenormand_notes.txt` → personal reading notes
-> * `tools/` → local helpers, experiments
-> * `.env`, `.env*`, `venv/` → secrets & local environment
->
-> 이 리포는 실제 배포용이 아니라, **구조/흐름을 보여주는 프로토타입**입니다.
+## 3.2 Single-card Quick Mode
+
+```mermaid
+flowchart TD
+    U[User] --> UI[Frontend]
+    UI -->|POST /api/reading (single)| BE[Backend]
+
+    BE --> DRAW[Draw 1 card]
+    DRAW --> RULE[YES/NO/MAYBE Mapping]
+
+    RULE -->|Optional| LLM[(LLM Explanation)]
+    LLM --> TEXT[Short Advice]
+    RULE --> TEXT
+
+    TEXT --> RESP[Response]
+    RESP --> UI_RENDER[Display Result]
+```
 
 ---
 
-## 🧠 Backend: FastAPI
+# 4. Prompt Design Overview
 
-### 1. Create a virtual environment
+## 4.1 Card Context Layer
 
-```bash
-python -m venv .venv
-# Windows
-.venv\Scripts\activate
-# macOS/Linux
-source .venv/bin/activate
+LLM receives structured card data:
+
+```
+Position: Card – Short meaning
 ```
 
-### 2. Install backend dependencies
+Example:
 
-(최소 예시. 실제로는 `requirements.txt`로 관리하는 것을 권장)
-
-```bash
-pip install fastapi uvicorn
-# plus: pydantic, httpx, etc. depending on your implementation
+```
+Past: Sun – Success, clarity
+Present: Clouds – Doubts
+Future: Anchor – Stability
 ```
 
-### 3. Run the server
+## 4.2 Reading Modes
 
-```bash
-uvicorn main:app --reload
-```
+* **Narrative mode** → full multi-card interpretation
+* **YES/NO mode** → verdict + short explanation + 3 action items
 
-* Health check: `GET http://localhost:8000/health`
-* Reading API: `POST http://localhost:8000/api/reading`
+## 4.3 Lenormand Rule Embedding
 
-### Example Request
+The prompt integrates:
+
+* Center card emphasis
+* Mirroring pairs
+* Chaining (adjacent interactions)
+
+This ensures *relational* interpretation vs. dictionary-style output.
+
+## 4.4 Structured JSON Output
 
 ```json
 {
-  "question_ko": "올해 커리어 방향은?",
-  "category": "career",
-  "spread_type": "past_present_future"
+  "summary_en": "...",
+  "overall_story_en": "...",
+  "action_items_en": ["...", "...", "..."]
 }
 ```
 
-### Example Response Shape
+## 4.5 Language Handling
+
+* LLM always outputs **EN JSON**
+* A separate layer translates to **KO**
+* Translation can be turned off for EN-only mode
+* UI can add a language toggle with minimal changes
+
+---
+
+# 5. System Architecture
+
+## 5.1 High-level Pipeline
+
+```
+User → UI → Backend → LLM → Translation (optional) → UI
+```
+
+## 5.2 Component Diagram
+
+```
+Frontend (Next.js)
+    ↓
+Backend (FastAPI)
+    - Load cards/spreads
+    - Sample cards
+    - Build prompt
+    - Call LLM
+    - Parse JSON
+    - Translate (optional)
+    ↓
+Frontend Rendering
+```
+
+Full diagram provided in the architecture section.
+
+## 5.3 Technology Choices
+
+* **Next.js** for UI
+* **FastAPI** for backend
+* **OpenAI LLMs** for reasoning
+* **Static JSON** for card/spread definitions
+* **Optional translation layer**
+
+## 5.4 Extensibility
+
+* Multilingual
+* Model-swappable
+* Persona layers
+* RAG integration
+* Interactive/streaming agent support
+
+---
+
+# 6. Differentiation & Value Proposition
+
+## 6.1 Structured Reasoning
+
+No random LLM text — consistent, reproducible interpretation grounded in spread logic.
+
+## 6.2 Dual-Mode Experience
+
+Fast single-card vs. deep multi-card storytelling.
+
+## 6.3 Modular Architecture
+
+Card/spread data is external; LLM logic isolated; translation optional.
+
+## 6.4 Multilingual-Ready
+
+EN-first reasoning with KO projection; scalable to JP/CN/others.
+
+## 6.5 Human-in-the-Loop Support
+
+Reader notes or style guidelines can shape model output via RAG.
+
+## 6.6 Safe & Supportive Output
+
+Tone avoids fatalistic or harmful statements.
+
+---
+
+# 7. Demo
+
+(Add screenshots of:
+
+* spread UI
+* card display
+* sample reading EN/KO
+  )
+
+Example fields returned:
 
 ```json
 {
-  "reading_en": {
-    "summary_en": "...",
-    "overall_story_en": "...",
-    "action_items_en": []
-  },
-  "reading_ko": {
-    "summary_ko": "...",
-    "overall_story_ko": "...",
-    "action_items_ko": []
-  },
-  "cards": [
-    {
-      "card_id": 1,
-      "position_label_en": "Past",
-      "row": 1,
-      "column": 1
-    }
-  ],
-  "spread_type": "past_present_future"
+  "summary_en": "...",
+  "summary_ko": "...",
+  "overall_story_ko": "...",
+  "cards": [...]
 }
 ```
 
-> 👉 In this prototype, `LLMClient` and `TranslationClient` return mocked responses.
-> For a real deployment, plug in actual providers (OpenAI, NLLB, etc.) and secrets via `.env`.
+---
+
+# 8. Next Steps & Future Expansion
+
+## 8.1 Integration with AURA (Memory / Knowledge Layer)
+
+AURA is a complementary project providing:
+
+* user/session memory
+* RAG-based knowledge retrieval
+* persistent persona/world data
+
+Connecting AURA would enable:
+
+* personalized readings
+* style consistency
+* historical context awareness
+
+Transforming the system into a **memory-enabled AI companion.**
 
 ---
 
-## 🖼 Frontend: Next.js
+## 8.2 VTuber Persona Layer (Character Interaction)
 
-```bash
-npm install
-npm run dev
+Another related project implements a real-time AI persona layer for VTubing.
+
+Linking it to the reasoning engine enables:
+
+* character-driven readings
+* emotional tone control
+* live stream interactions
+* performative AI agents
+
+---
+
+## 8.3 Toward a Unified AI Agent Framework
+
+```
+Reasoning Engine (Lenormand Reader)
++ Memory Layer (AURA)
++ Persona Layer (VTuber AI)
 ```
 
-By default, the frontend expects the API at:
+This forms the foundation for:
 
-```text
-NEXT_PUBLIC_API_BASE_URL=http://localhost:8000
+* storytelling agents
+* emotionally aware companions
+* interactive guidance systems
+* creator tools
+
+---
+
+# 9. Repository Structure
+
+```
+lenormand-llm-reader/
+├── backend/
+│   ├── main.py
+│   ├── llm_client.py
+│   ├── translation_client.py
+│   └── data/
+│       ├── cards.json
+│       └── spreads.json
+├── frontend/
+│   └── pages/reading.tsx
+├── README.md
 ```
 
-* `/reading` page posts to `POST /api/reading`
-* Renders:
-
-  * Selected spread
-  * Card positions
-  * `reading_en` / `reading_ko` blocks
-
 ---
 
-## 📦 Data Templates
+# 10. License
 
-* `data/cards.json`
-
-  * keys `1..36`
-  * structure ready for:
-
-    * names (EN/KR)
-    * domain-specific keywords
-    * interpretive text
-
-* `data/spreads.json`
-
-  * definitions for:
-
-    * Past–Present–Future
-    * Situation–Obstacle–Advice
-    * 3×3 Box
-    * Grand Tableau (8×4+4)
-
-이 JSON 설계는 나중에 **LLM 프롬프트용 RAG 컨텍스트**로 확장하기 쉽게 구성되어 있습니다.
-
----
-
-## 🧪 Manual Test (Backend-only)
-
-1. Start backend:
-
-```bash
-uvicorn main:app --reload
-```
-
-2. POST to:
-
-```text
-http://localhost:8000/api/reading
-```
-
-with:
-
-```json
-{
-  "question_ko": "지금 취업 준비 방향이 맞는지 알고 싶어요",
-  "category": "career",
-  "spread_type": "past_present_future"
-}
-```
-
-3. Expect:
-
-* HTTP 200
-* `reading_en.summary_en` populated in English (mock)
-* `reading_ko.summary_ko` populated in Korean (mock)
-* `cards` + `spread_type` echoed back according to `spread_engine` logic
-
----
-
-## 🖼 Image Assets & Copyright
-
-> ⚠️ **Important notice**
-
-* Some images under `static/` (especially card-like artwork) are **temporary placeholders**.
-* 원본 출처의 저작권 상태가 명확하지 않을 수 있으며,
-  **상업적/공개 배포용으로 사용하면 안 됩니다.**
-* 실제 배포 시에는:
-
-  * 직접 제작한 일러스트
-  * 상업적 사용이 허용된 에셋
-  * 또는 완전히 텍스트 기반 UI
-    중 하나로 교체해야 합니다.
-
----
-
-## 🔮 Roadmap / Ideas
-
-* Integrate real LLM + translation APIs
-* Fill `cards.json` with full Lenormand metadata (EN/KR)
-* Add persistent reading history
-* Add user profiles & rate limiting
-* Replace placeholder art with original, copyright-safe illustrations
-
----
-
-## 👤 About
-
-Built as a personal exploration into:
-
-* LLM-backed **symbolic systems** (Lenormand)
-* **Backend–Frontend** separation with FastAPI & Next.js
-* Designing JSON schemas for card-based RAG-style prompts
-
-Author: **따옴표**
-LLM collaborator: **Rico**
-
----
-
-## 1. User-facing Service Flow
-
-This section describes the end-to-end flow of the Lenormand LLM Reader
-from the user's point of view.  
-(Technical details such as FastAPI/Next.js wiring are handled underneath
-this flow.)
-
----
-
-### 1.1 Entry: starting a reading
-
-1. The user opens the web app and lands on the reading screen (`/reading`).
-2. The page shows:
-   - A text field for the user's question (in Korean).
-   - Optional category selector (e.g. "career", "relationship").
-   - Spread selection UI (multi-card spreads and single-card mode).
-   - A submit button to start the reading.
-
-User intent at this step:
-- "I have a question about my life/situation."
-- "I want a Lenormand-style reading with minimal friction."
-- "I want to see both symbolic cards and a natural-language explanation."
-
----
-
-### 1.2 Multi-card spread flow
-
-This is the default flow for "real" Lenormand readings
-(e.g. Past–Present–Future, Situation–Obstacle–Advice, 3×3 Box).
-
-1. The user types a **Korean question**  
-   e.g. `"지금 취업 준비 방향이 맞는지 알고 싶어요."`
-2. The user chooses a **category**, such as `"career"`.
-3. The user selects a **spread type**, for example:
-   - `past_present_future`
-   - `situation_obstacle_advice`
-   - `box_3x3`
-   - `grand_tableau`
-4. The user clicks **"Start reading"** (or equivalent call-to-action).
-5. The frontend sends a `POST /api/reading` request with:
-   - `question_ko` (string)
-   - `category` (string)
-   - `spread_type` (string)
-6. The backend:
-   - Loads spread definition and card templates from `data/spreads.json` and `data/cards.json`.
-   - Samples and shuffles cards according to the chosen spread.
-   - Builds an internal prompt for the LLM (EN) using:
-     - The user’s question (translated into English if needed),
-     - Selected cards and their positions,
-     - Optional Lenormand keywords/metadata.
-   - Calls the LLM client to generate an **English reading**:
-     - `summary_en`
-     - `overall_story_en`
-     - `action_items_en[]`
-   - Calls the translation client to produce a **Korean reading**:
-     - `summary_ko`
-     - `overall_story_ko`
-     - `action_items_ko[]`
-   - Returns a structured JSON response back to the frontend:
-     - `reading_en`, `reading_ko`
-     - `cards[]` (ids, layout, position labels)
-     - `spread_type`
-7. The frontend renders:
-   - The chosen spread layout (grid/rows/columns).
-   - Each sampled card in its position (via `CardView`).
-   - The LLM-generated reading (via `ResultView`):
-     - English block (optional)
-     - Korean block (main user-facing output)
-8. The user reads:
-   - A **visual spread** (which cards appeared where),
-   - A **bilingual textual interpretation**, including:
-     - High-level summary,
-     - Narrative explanation,
-     - Concrete suggestions / action items.
-
-From the user perspective:
-- They asked a single question in Korean,
-- Selected a spread,
-- Received a structured Lenormand reading that feels similar
-  to a human reader’s long-form explanation.
-
----
-
-### 1.3 Single-card quick mode (YES / NO / MAYBE)
-
-This mode supports very fast, lightweight readings for short questions.
-
-1. The user chooses **Single-Card mode** in the spread selector.
-2. The user types a short, focused question in Korean:  
-   e.g. `"이번 주에 지원한 포지션에서 연락이 올까요?"`
-3. The user clicks the button to draw a single card.
-4. The backend:
-   - Draws exactly one card from the Lenormand deck.
-   - Interprets the card using predefined YES/NO/MAYBE rules.
-     - e.g. `Sun → YES`, `Clover → light YES`,
-       `Rider → MAYBE`, `Mountain → NO`, etc.
-   - Optionally calls the LLM to frame the verdict as:
-     - A short explanation,
-     - Simple guidance in natural language.
-5. The frontend shows:
-   - The drawn card (icon/name),
-   - A short text like:
-     - Quick interpretation (1–3 sentences),
-     - Final verdict: YES / NO / MAYBE.
-
-User experience:
-- Very low friction.
-- Immediate, intuitive answer.
-- Can be used as a "first check" before a larger spread reading.
-
----
-
-### 1.4 Hybrid reading concept (human + LLM)
-
-The system is designed so that a human Lenormand reader
-can stay in the loop instead of being replaced.
-
-Conceptually, the flow can work as:
-
-1. The **human reader** looks at the spread and writes or updates
-   their own notes in a local file (e.g. `lenormand_notes.txt`):
-   - personal interpretations,
-   - favorite key phrases,
-   - their own reading style.
-2. The system can load these notes as part of the LLM context
-   (future RAG-style enhancement).
-3. When the user requests a reading, the LLM receives:
-   - card metadata (from `cards.json`),
-   - spread structure (from `spreads.json`),
-   - the user’s question,
-   - and optionally, the reader’s notes.
-4. The LLM generates a reading that follows the
-   **reader’s own worldview and style**.
-5. The human reader:
-   - Combines:
-     - Their quick intuition (YES/NO),
-     - Their own interpretation,
-     - The LLM’s long-form explanation,
-   - And delivers a final, hybrid reading to the end user.
-
-This makes the service an **augmentation tool** for human readers,
-not a replacement:
-- Fast single-card answers,
-- Deeper multi-card spreads,
-- Flexible integration of the reader’s unique style.
-
----
-
-### 1.5 Summary of user flow
-
-High-level user journey:
-
-1. Open the Lenormand Reader web app.
-2. Enter a question in Korean.
-3. Choose:
-   - Single-card quick mode, or
-   - Multi-card spread type (Past–Present–Future, SOA, 3×3, etc.).
-4. Submit the request.
-5. See:
-   - The card(s) drawn and their layout,
-   - A bilingual reading (EN/KO),
-   - Optional explicit YES/NO/MAYBE verdict for single-card mode.
-6. Optionally repeat with another question or spread.
-
-The entire experience models how a real Lenormand reader
-would structure a session, while using an LLM to handle
-the long-form narrative and translations.
-
+MIT (or update depending on your preference)
